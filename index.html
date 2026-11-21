@@ -1,0 +1,5362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6f0ff">
+<title>StudySorter ✨ | Your student life. Sorted.</title>
+
+<style>
+:root {
+    --purple: #9b7bea;
+    --deep-purple: #7756c8;
+    --light-purple: #f0e8ff;
+    --pink: #ffeaf3;
+    --blue: #e9f2ff;
+    --white: #ffffff;
+    --text: #44385a;
+    --muted: #9386a7;
+    --border: #eee5fa;
+    --shadow: 0 8px 28px rgba(125, 91, 170, 0.10);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at top left, #f4eaff, transparent 35%),
+        radial-gradient(circle at bottom right, #fff0f7, transparent 35%),
+        #faf8ff;
+    min-height: 100vh;
+}
+
+button, input, select, textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+button:active {
+    transform: scale(.98);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.page {
+    display: none;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px 16px 40px;
+}
+
+.page.active {
+    display: block;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    color: var(--deep-purple);
+    letter-spacing: -.6px;
+}
+
+.tagline {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+.menu-button, .back-button {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--deep-purple);
+    border-radius: 14px;
+    padding: 11px 15px;
+    box-shadow: var(--shadow);
+    font-size: 18px;
+}
+
+.hero {
+    background: linear-gradient(135deg, #eee5ff, #fff0f7);
+    border: 1px solid #f0e5ff;
+    border-radius: 26px;
+    padding: 28px 22px;
+    margin-bottom: 26px;
+}
+
+.hero h1 {
+    font-size: clamp(25px, 5vw, 36px);
+    margin-bottom: 10px;
+    color: #7053b7;
+}
+
+.hero p {
+    color: #827297;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.section-title {
+    font-size: 19px;
+    margin: 24px 0 15px;
+    color: #655080;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.feature-card {
+    text-align: left;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 20px 17px;
+    box-shadow: var(--shadow);
+    min-height: 135px;
+    transition: .2s;
+}
+
+.feature-card:hover {
+    transform: translateY(-3px);
+}
+
+.feature-card .emoji {
+    font-size: 29px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.feature-card h3 {
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: #655080;
+}
+
+.feature-card p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.card-lavender { background: #fcfaff; }
+.card-pink { background: #fff9fc; }
+.card-blue { background: #f8fbff; }
+.card-mint { background: #f8fffc; }
+
+.coming-soon {
+    opacity: .8;
+}
+
+.page-heading {
+    margin: 18px 0 22px;
+}
+
+.page-heading h1 {
+    color: #7053b7;
+    font-size: 27px;
+    margin-bottom: 8px;
+}
+
+.page-heading p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 23px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 18px;
+}
+
+.panel h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+    color: #7053b7;
+}
+
+.input-row {
+    display: flex;
+    gap: 9px;
+    margin-bottom: 15px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #e8def6;
+    border-radius: 13px;
+    background: #fdfbff;
+    color: var(--text);
+    outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--purple);
+}
+
+.primary-button {
+    background: linear-gradient(135deg, #a68ae9, #8b6bd2);
+    color: white;
+    border-radius: 13px;
+    padding: 12px 17px;
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.secondary-button {
+    background: #f2ebff;
+    color: #795bc0;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-weight: 600;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 12px;
+    border: 1px solid #f0e8fa;
+    background: #fdfbff;
+    border-radius: 13px;
+    margin-top: 9px;
+}
+
+.list-item .item-text {
+    flex: 1;
+    overflow-wrap: anywhere;
+}
+
+.list-item.completed .item-text {
+    text-decoration: line-through;
+    color: #aa9dbb;
+}
+
+.delete-button {
+    background: #fff0f5;
+    color: #d17d9f;
+    border-radius: 10px;
+    padding: 7px 10px;
+}
+
+.empty-message {
+    color: #aa9dbb;
+    text-align: center;
+    font-size: 13px;
+    padding: 18px 0;
+}
+
+.small-note {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-top: 12px;
+}
+
+.time-input {
+    accent-color: var(--purple);
+}
+
+/* CUSTOM LAVENDER TIME PICKER */
+
+.time-picker-button {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 8px;
+    border: 1px solid #e8def6;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #fcfaff, #fff7fb);
+    color: #795bc0;
+    font-weight: 600;
+    font-size: 13px;
+    box-shadow: 0 3px 12px rgba(125, 91, 170, 0.06);
+}
+
+.time-picker-button span:first-child {
+    font-size: 20px;
+}
+
+.time-picker-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(66, 48, 91, 0.38);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    z-index: 1000;
+}
+
+.time-picker-card {
+    width: 100%;
+    max-width: 390px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: linear-gradient(145deg, #ffffff, #fcf8ff);
+    border: 1px solid #e9defa;
+    border-radius: 26px;
+    padding: 20px;
+    box-shadow: 0 18px 60px rgba(83, 59, 123, 0.24);
+}
+
+.clock-top {
+    text-align: center;
+    margin-bottom: 14px;
+}
+
+.clock-top h2 {
+    color: #7053b7;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.clock-top p {
+    color: #a092b5;
+    font-size: 12px;
+}
+
+.clock-preview {
+    background: linear-gradient(135deg, #f0e8ff, #ffeaf3);
+    border: 1px solid #eadffb;
+    border-radius: 18px;
+    text-align: center;
+    padding: 16px;
+    font-size: 32px;
+    font-weight: 800;
+    color: #795bc0;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+}
+
+.clock-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.clock-column h3 {
+    text-align: center;
+    color: #8064bc;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.clock-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+}
+
+.clock-option {
+    padding: 10px 4px;
+    background: #f8f3ff;
+    border: 1px solid #eee5fa;
+    border-radius: 11px;
+    color: #8064bc;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .15s;
+}
+
+.clock-option:hover {
+    background: #f0e8ff;
+}
+
+.clock-option.active {
+    background: linear-gradient(135deg, #a68ae9, #8b6bd2);
+    border-color: #9b7bea;
+    color: white;
+    box-shadow: 0 3px 10px rgba(139, 107, 210, 0.2);
+}
+
+.clock-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.clock-actions button {
+    flex: 1;
+    padding: 13px;
+    border-radius: 14px;
+    font-weight: 700;
+}
+
+.clock-cancel {
+    background: #f5efff;
+    color: #8064bc;
+}
+
+.clock-done {
+    background: linear-gradient(135deg, #a68ae9, #8b6bd2);
+    color: white;
+}
+
+@media (max-width: 360px) {
+    .time-picker-card {
+        padding: 15px;
+    }
+
+    .clock-option {
+        padding: 9px 2px;
+        font-size: 12px;
+    }
+
+    .clock-preview {
+        font-size: 27px;
+    }
+}
+
+.timer-area {
+    text-align: center;
+    padding: 15px 0;
+}
+
+.timer-circle {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: conic-gradient(#a58be8 0deg, #eee6ff 0deg);
+    position: relative;
+}
+
+.timer-circle::before {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    background: white;
+    border-radius: 50%;
+}
+
+.timer-content {
+    position: relative;
+    z-index: 1;
+}
+
+.timer-display {
+    font-size: 37px;
+    font-weight: 800;
+    color: #795bc0;
+    letter-spacing: 1px;
+}
+
+.timer-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.timer-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.progress-track {
+    width: 100%;
+    height: 10px;
+    border-radius: 20px;
+    background: #eee6fa;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #b49ae9, #8c6bd2);
+    border-radius: 20px;
+    transition: width .3s;
+}
+
+.subject-card {
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 16px;
+    margin-bottom: 13px;
+    background: #fdfbff;
+}
+
+.subject-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.subject-header h3 {
+    font-size: 16px;
+    color: #7053b7;
+    overflow-wrap: anywhere;
+}
+
+.topic-row {
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid #f0e8fa;
+    font-size: 13px;
+}
+
+.topic-row span {
+    flex: 1;
+    overflow-wrap: anywhere;
+}
+
+.topic-row.done span {
+    text-decoration: line-through;
+    color: #aa9dbb;
+}
+
+.topic-row button {
+    background: #fff0f5;
+    color: #d17d9f;
+    padding: 5px 8px;
+    border-radius: 8px;
+}
+
+.menu-panel {
+    position: fixed;
+    top: 76px;
+    right: 15px;
+    width: min(330px, calc(100vw - 30px));
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 20;
+    background: rgba(255,255,255,.97);
+    backdrop-filter: blur(18px);
+    border: 1px solid #e9defa;
+    border-radius: 23px;
+    padding: 17px;
+    box-shadow: 0 15px 50px rgba(100,70,140,.18);
+}
+
+.profile-card {
+    background: linear-gradient(135deg, #f0e7ff, #fff0f7);
+    padding: 18px;
+    border-radius: 18px;
+    margin-bottom: 13px;
+}
+
+.profile-avatar {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: white;
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+.profile-card h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.profile-card p {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.menu-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 13px 12px;
+    background: transparent;
+    border-radius: 13px;
+    color: #655080;
+    font-weight: 600;
+}
+
+.menu-item:hover {
+    background: #f5efff;
+}
+
+.menu-item span {
+    margin-right: 10px;
+}
+
+.scholarship-card {
+    border: 1px solid var(--border);
+    background: white;
+    padding: 17px;
+    border-radius: 17px;
+    margin-top: 12px;
+}
+
+.scholarship-card h3 {
+    color: #7053b7;
+    font-size: 16px;
+    margin-bottom: 7px;
+}
+
+.scholarship-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.scholarship-card a {
+    color: #8060ca;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+footer {
+    text-align: center;
+    padding: 30px 10px 10px;
+    color: #a495ba;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+footer .love {
+    color: #d88aaf;
+}
+
+@media (max-width: 480px) {
+    .page {
+        padding: 15px 13px 30px;
+    }
+
+    .card-grid {
+        gap: 11px;
+    }
+
+    .feature-card {
+        padding: 16px 13px;
+        min-height: 125px;
+    }
+
+    .hero {
+        padding: 24px 18px;
+    }
+
+    .panel {
+        padding: 16px;
+    }
+
+    .timer-circle {
+        width: 200px;
+        height: 200px;
+    }
+
+    .timer-circle::before {
+        width: 172px;
+        height: 172px;
+    }
+}/* CAREER GUIDANCE */
+
+.career-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.career-card {
+    background: #f8f5ff;
+    border: 1px solid #e6dcff;
+    border-radius: 18px;
+    padding: 20px;
+    transition: transform 0.2s ease;
+}
+
+.career-card:hover {
+    transform: translateY(-4px);
+}
+
+.career-card .emoji {
+    font-size: 32px;
+}
+
+.career-card h3 {
+    margin: 12px 0;
+    color: #5b4b8a;
+}
+
+.career-card p {
+    margin: 10px 0;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+@media (max-width: 600px) {
+    .career-grid {
+        grid-template-columns: 1fr;
+    }
+}
+  /* StudySorter First Loading Screen */
+#studySorterLoadingScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #faf5ff, #fff5fa, #f1f5ff);
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+#studySorterLoadingScreen.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.study-loading-logo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #8055a8;
+    letter-spacing: 0.5px;
+}
+
+.study-loading-tagline {
+    margin-top: 8px;
+    color: #9b7bb5;
+    font-size: 14px;
+}
+
+.study-loading-spinner {
+    width: 38px;
+    height: 38px;
+    margin-top: 28px;
+    border: 4px solid #eadcf8;
+    border-top: 4px solid #a77bd1;
+    border-radius: 50%;
+    animation: studyLoadingSpin 0.8s linear infinite;
+}
+
+.study-loading-message {
+    margin-top: 16px;
+    color: #806b91;
+    font-size: 14px;
+}
+
+@keyframes studyLoadingSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+</style>
+</head>
+
+<body>
+<div id="studySorterLoadingScreen">
+    <div class="study-loading-logo">StudySorter 💜</div>
+    <div class="study-loading-tagline">
+        Your student life. Sorted.
+    </div>
+
+    <div class="study-loading-spinner"></div>
+
+    <div class="study-loading-message">
+        Getting things ready... 💜
+    </div>
+</div>
+<!-- HOMEPAGE -->
+
+<section id="homePage" class="page active">
+
+<header>
+    <div class="home-brand">
+    <img
+      src="Studysorter-logo/file_000000004d40820880823451d171a5ac (1).webp"
+        alt="StudySorter - Your student life. Sorted."
+        style="width:190px; max-width:48vw; height:auto; display:block;"
+    >
+</div>
+
+    <div style="display:flex; gap:8px; align-items:center;">
+    
+<div style="position:relative; display:inline-block;">
+    <button
+        class="menu-button"
+        onclick="openNotifications()"
+        aria-label="Notifications"
+    >🔔</button>
+
+    <span
+        id="notificationBellDot"
+        style="
+            display:none;
+            position:absolute;
+            top:4px;
+            right:5px;
+            width:9px;
+            height:9px;
+            background:#ff4f91;
+            border:2px solid white;
+            border-radius:50%;
+        "
+    ></span>
+</div>
+
+
+    <button class="menu-button" onclick="toggleMenu()">⋮</button>
+</div>
+  </header>
+
+<div class="hero">
+    <h1>Hello, Student! 🌷</h1>
+    <p>Your little space to organize studies, discover opportunities, and make student life easier.</p>
+</div>
+
+<h2 class="section-title">Explore StudySorter</h2>
+
+<div class="card-grid">
+
+    <button class="feature-card card-lavender" onclick="openStudyHub()">
+        <span class="emoji">📚</span>
+        <h3>Study Hub</h3>
+        <p>Organize your tasks, timetable, study time and syllabus.</p>
+    </button>
+
+    <button class="feature-card card-pink" onclick="openScholarshipFinder()">
+        <span class="emoji">🎓</span>
+        <h3>Scholarship Finder</h3>
+        <p>Explore scholarship portals and opportunities.</p>
+    </button>
+
+<button class="feature-card card-blue"
+        onclick="showPage('careerGuidePage')">
+    <span class="emoji">🧭</span>
+    <h3>Career Guide</h3>
+    <p>Explore careers, courses and opportunities.</p>
+</button>
+
+<button class="feature-card card-mint"
+        onclick="showPage('notesPage')">
+
+    <span class="emoji">📝</span>
+
+    <h3>Notes</h3>
+
+    <p>Explore study notes for Classes 6–8.</p>
+
+</button>
+
+
+</div>
+<footer>
+    <div style="margin-bottom:10px; color:#8060ca;">
+        📧 Contact Us:
+        <a href="mailto:contactstudysorter@gmail.com"
+           style="color:#8060ca; text-decoration:none; font-weight:600;">
+            contactstudysorter@gmail.com
+        </a>
+    </div>
+
+    <div class="love">Made for students, with love 💜</div>
+    © 2026 StudySorter
+</footer>
+
+</section>
+
+<!-- YOUR VOICE FLOATING BUTTON -->
+  <button
+    id="yourVoiceBubble"
+    onclick="openYourVoice()"
+    aria-label="Open Your Voice"
+    style="
+        position:fixed;
+        right:16px;
+        bottom:85px;
+        border:none;
+        border-radius:30px;
+        padding:12px 18px;
+        background:linear-gradient(135deg,#ead9ff,#f8d9ed);
+        color:#70449a;
+        font-size:15px;
+        font-weight:600;
+        box-shadow:0 4px 14px rgba(120,80,160,0.22);
+        z-index:999;
+        cursor:pointer;
+    "
+>
+    💬 Your Voice
+</button>
+  
+<!-- NOTIFICATIONS PAGE -->
+
+<section id="notificationsPage" class="page">
+
+    <header>
+        <button class="back-button" onclick="goHome()">←</button>
+        <div class="logo">Notifications 🔔</div>
+    </header>
+
+    <div class="page-heading">
+        <h1>What's New? ✨</h1>
+        <p>Stay updated with the latest news and updates from StudySorter.</p>
+    </div>
+
+    <div id="notificationsList">
+        <div class="empty-message">Loading notifications... 💜</div>
+    </div>
+
+</section>
+
+<!-- YOUR VOICE PAGE -->
+
+<section id="yourVoicePage" class="page">
+
+    <header>
+        <button class="back-button" onclick="goHome()">←</button>
+        <div class="logo">Your Voice 💜</div>
+    </header>
+
+    <div class="panel">
+        <h2>Share your voice 🌸</h2>
+
+        <p class="small-note">
+            Your space to speak freely! 💜
+
+From daily-life drama, school and college stories, friendship gossip, funny incidents, academic stress, study struggles, to your thoughts on student life and education — you can share it all here!
+
+No judgement, just a community where students can express themselves, share experiences, and feel heard. 🌸
+
+Your name will be visible to everyone, so please respect others' privacy.
+
+Your story. Your thoughts. Your Voice. 💜
+        </p>
+
+        <textarea
+            id="voicePostInput"
+            rows="4"
+            maxlength="2000"
+            placeholder="What's on your mind?"
+        ></textarea>
+
+        <button
+            class="primary-button"
+            style="width:100%; margin-top:12px;"
+            onclick="publishVoicePost()"
+        >
+            Share Post 💜
+        </button>
+
+        <div id="voicePostMessage" class="small-note"></div>
+    </div>
+
+    <div class="panel" style="margin-top:15px;">
+        <h2>Community Voices ✨</h2>
+        <div id="voicePostsList">
+            Loading posts...
+        </div>
+    </div>
+
+</section>
+
+
+
+<!-- STUDY HUB DASHBOARD -->
+
+<section id="studyHub" class="page">
+
+<header>
+    <button class="back-button" onclick="goHome()">←</button>
+
+    <div>
+        <div class="logo">Study Hub 📚</div>
+        <div class="tagline">Your personal study space</div>
+    </div>
+
+    <button class="menu-button" onclick="toggleMenu()">⋮</button>
+</header>
+
+<div class="hero">
+    <h1>Let's get organized! 🌸</h1>
+    <p>Choose what you want to work on today.</p>
+</div>
+
+<div class="card-grid">
+
+    <button class="feature-card card-lavender" onclick="openFeature('todoPage')">
+        <span class="emoji">☑️</span>
+        <h3>To-Do List</h3>
+        <p>Keep track of your daily tasks.</p>
+    </button>
+
+    <button class="feature-card card-pink" onclick="openFeature('timetablePage')">
+        <span class="emoji">🕰️</span>
+        <h3>Timetable</h3>
+        <p>Plan your study schedule.</p>
+    </button>
+
+    <button class="feature-card card-blue" onclick="openFeature('timerPage')">
+        <span class="emoji">⏳</span>
+        <h3>Today's Study Time</h3>
+        <p>Focus with your personal study timer.</p>
+    </button>
+
+    <button class="feature-card card-mint" onclick="openFeature('syllabusPage')">
+        <span class="emoji">📖</span>
+        <h3>Syllabus Tracker</h3>
+        <p>Track subjects and chapter completion.</p>
+    </button>
+
+</div>
+
+<footer>
+    <div class="love">Made for students, with love 💜</div>
+    © 2026 StudySorter
+</footer>
+
+</section>
+
+<!-- TO-DO LIST -->
+
+<section id="todoPage" class="page">
+
+<header>
+    <button class="back-button" onclick="openStudyHub()">←</button>
+
+    <div>
+        <div class="logo">To-Do List ☑️</div>
+        <div class="tagline">One task at a time</div>
+    </div>
+
+    <button class="menu-button" onclick="toggleMenu()">⋮</button>
+</header>
+
+<div class="panel">
+    <h2>Add a task ✨</h2>
+
+    <div class="input-row">
+        <input id="todoInput" type="text" placeholder="What do you need to do?">
+        <button class="primary-button" onclick="addTodo()">Add</button>
+    </div>
+
+    <div id="todoList"></div>
+</div>
+
+<footer>
+    <div class="love">Made for students, with love 💜</div>
+    © 2026 StudySorter
+</footer>
+
+</section>
+
+<!-- TIMETABLE -->
+
+<section id="timetablePage" class="page">
+
+<header>
+    <button class="back-button" onclick="openStudyHub()">←</button>
+
+    <div>
+        <div class="logo">Timetable 🕰️</div>
+        <div class="tagline">Make time for your goals</div>
+    </div>
+
+    <button class="menu-button" onclick="toggleMenu()">⋮</button>
+</header>
+
+<div class="panel">
+    <h2>Add a schedule ✨</h2>
+
+    <input id="scheduleTask" type="text" placeholder="Subject or activity">
+
+    <div class="input-row" style="margin-top:10px;">
+
+        <input id="scheduleStart" type="hidden">
+
+        <button type="button" class="time-picker-button"
+                onclick="openTimePicker('scheduleStart')">
+            <span>🕰️</span>
+            <span id="scheduleStartDisplay">Select start time</span>
+        </button>
+
+        <input id="scheduleEnd" type="hidden">
+
+        <button type="button" class="time-picker-button"
+                onclick="openTimePicker('scheduleEnd')">
+            <span>🌙</span>
+            <span id="scheduleEndDisplay">Select end time</span>
+        </button>
+
+    </div>
+
+    <button class="primary-button" style="width:100%;" onclick="addSchedule()">Add to Timetable</button>
+
+    <p class="small-note">Tap the cute clock buttons to choose your start and end time. 🌷</p>
+</div>
+
+<div class="panel">
+    <h2>Your Schedule 🌷</h2>
+    <div id="scheduleList"></div>
+</div>
+
+<footer>
+    <div class="love">Made for students, with love 💜</div>
+    © 2026 StudySorter
+</footer>
+
+</section>
+
+<!-- CUSTOM TIME PICKER MODAL -->
+
+<div id="timePickerModal" class="time-picker-overlay hidden"
+     onclick="if(event.target === this) closeTimePicker()">
+
+    <div class="time-picker-card" role="dialog" aria-modal="true">
+
+        <div class="clock-top">
+            <h2>Choose your time 🕰️</h2>
+            <p>Pick an hour and minute for your schedule</p>
+        </div>
+
+        <div class="clock-preview" id="clockPreview">09:00 AM</div>
+
+        <div class="clock-columns">
+
+            <div class="clock-column">
+                <h3>Hour 🌸</h3>
+                <div class="clock-grid" id="clockHours"></div>
+            </div>
+
+            <div class="clock-column">
+                <h3>Minute ✨</h3>
+                <div class="clock-grid" id="clockMinutes"></div>
+            </div>
+
+        </div>
+
+        <div class="clock-actions">
+            <button class="clock-cancel" onclick="closeTimePicker()">Cancel</button>
+            <button class="clock-done" onclick="confirmTimeSelection()">Done ✓</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- STUDY TIMER -->
+
+<section id="timerPage" class="page">
+
+<header>
+    <button class="back-button" onclick="openStudyHub()">←</button>
+
+    <div>
+        <div class="logo">Today's Study Time ⏳</div>
+        <div class="tagline">Focus on your goals</div>
+    </div>
+
+    <button class="menu-button" onclick="toggleMenu()">⋮</button>
+</header>
+
+<div class="panel">
+    <h2>Your focus session 🌸</h2>
+
+    <div class="timer-area">
+
+        <label for="timerMinutes">Choose study duration (minutes)</label>
+
+        <input id="timerMinutes" type="number" min="1" max="300" value="25"
+               style="max-width:150px; margin:12px auto;" onchange="setTimerDuration()">
+
+        <div class="timer-circle" id="timerCircle">
+            <div class="timer-content">
+                <div class="timer-display" id="timerDisplay">25:00</div>
+                <div class="timer-label" id="timerLabel">Ready to focus?</div>
+            </div>
+        </div>
+
+        <div class="timer-controls">
+            <button class="primary-button" id="timerStart" onclick="startTimer()">Start</button>
+            <button class="secondary-button" onclick="pauseTimer()">Pause</button>
+            <button class="secondary-button" onclick="resetTimer()">Reset</button>
+        </div>
+
+        <p class="small-note">Your timer runs while this page is open. Keep the page active during your session.</p>
+
+    </div>
+</div>
+
+<div class="panel">
+    <h2>Today's completed focus time</h2>
+
+    <div style="font-size:25px; font-weight:800; color:#795bc0;" id="totalStudyTime">0 min</div>
+
+    <p class="small-note">Completed timer sessions are saved on this device.</p>
+</div>
+
+<footer>
+    <div class="love">Made for students, with love 💜</div>
+    © 2026 StudySorter
+</footer>
+
+</section>
+
+<!-- SYLLABUS TRACKER -->
+
+<section id="syllabusPage" class="page">
+
+<header>
+    <button class="back-button" onclick="openStudyHub()">←</button>
+
+    <div>
+        <div class="logo">Syllabus Tracker 📖</div>
+        <div class="tagline">Every chapter brings you closer</div>
+    </div>
+
+    <button class="menu-button" onclick="toggleMenu()">⋮</button>
+</header>
+
+<div class="panel">
+    <h2>Add a subject ✨</h2>
+
+    <div class="input-row">
+        <input id="subjectInput" type="text" placeholder="Subject name">
+        <button class="primary-button" onclick="addSubject()">Add</button>
+    </div>
+</div>
+
+<div class="panel">
+    <h2>Your subjects 🌷</h2>
+    <div id="syllabusList"></div>
+</div>
+
+<footer>
+    <div class="love">Made for students, with love 💜</div>
+    © 2026 StudySorter
+</footer>
+
+</section>
+
+<!-- SCHOLARSHIP FINDER -->
+
+<section id="scholarshipFinder" class="page">
+
+<header>
+    <button class="back-button" onclick="goHome()">←</button>
+
+    <div>
+        <div class="logo">Scholarship Finder 🎓</div>
+        <div class="tagline">Discover educational opportunities</div>
+    </div>
+
+    <button class="menu-button" onclick="toggleMenu()">⋮</button>
+</header>
+
+<div class="hero">
+    <h1>Find your opportunity 🌸</h1>
+    <p>Explore scholarships by your education level and state.</p>
+</div>
+
+<div class="panel">
+    <h2>Find scholarships ✨</h2>
+
+    <input id="scholarshipSearch"
+           type="search"
+           placeholder="Search scholarship or portal name..."
+           style="margin-bottom:10px;">
+
+    <label for="scholarshipClass"
+           style="display:block; margin-bottom:6px;">
+        Education Level
+    </label>
+
+    <select id="scholarshipClass" style="margin-bottom:12px;">
+        <option value="">All Classes / Courses</option>
+        <option value="school">School Students</option>
+        <option value="class9">Class 9</option>
+        <option value="class10">Class 10</option>
+        <option value="class11">Class 11</option>
+        <option value="class12">Class 12</option>
+        <option value="college">College / UG</option>
+    </select>
+
+    <label for="scholarshipState"
+           style="display:block; margin-bottom:6px;">
+        State / Region
+    </label>
+
+    <select id="scholarshipState" style="margin-bottom:12px;">
+        <option value="">All States / Regions</option>
+
+        <optgroup label="States">
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+        </optgroup>
+
+        <optgroup label="Union Territories">
+            <option value="Andaman and Nicobar Islands">
+                Andaman and Nicobar Islands
+            </option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Dadra and Nagar Haveli and Daman and Diu">
+                Dadra and Nagar Haveli and Daman and Diu
+            </option>
+            <option value="Delhi">Delhi</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Ladakh">Ladakh</option>
+            <option value="Lakshadweep">Lakshadweep</option>
+            <option value="Puducherry">Puducherry</option>
+        </optgroup>
+
+        <option value="National">National / All India</option>
+    </select>
+
+    <label for="scholarshipStatus"
+           style="display:block; margin-bottom:6px;">
+        Application Status
+    </label>
+
+    <select id="scholarshipStatus" style="margin-bottom:14px;">
+        <option value="">All Application Statuses</option>
+        <option value="Open">Open</option>
+        <option value="Upcoming">Upcoming</option>
+        <option value="Check Portal">Check Portal</option>
+    </select>
+
+    <button class="primary-button"
+            style="width:100%;"
+            onclick="filterScholarships()">
+        🔍 Search
+    </button>
+
+    <button class="secondary-button"
+            style="width:100%; margin-top:10px;"
+            onclick="resetScholarshipFilters()">
+        Reset Filters ↻
+    </button>
+
+    <div id="scholarshipList" style="margin-top:16px;"></div>
+</div>
+
+</section>
+<!-- CAREER GUIDANCE PAGE -->
+<div id="careerGuidePage" class="page">
+<button class="back-btn" onclick="showPage('homePage')">
+    ← Back to Home
+</button>
+    <div class="hero">
+        <h1>Career Guidance 🧭</h1>
+        <p>Discover your interests and explore your future possibilities.</p>
+    </div>
+
+    <div class="panel">
+
+        <h2>Explore Career Paths ✨</h2>
+
+        < class="career-grid">
+
+            <div class="career-card">
+                <span class="emoji">💻</span>
+                <h3>Science & Technology</h3>
+                <p>Explore careers in technology, engineering, research and computers.</p>
+                <p><strong>Careers:</strong> Software Developer, Engineer, Scientist</p>
+                <p><strong>Courses:</strong> B.Tech, B.Sc, BCA</p>
+            </div>
+
+            <div class="career-card">
+                <span class="emoji">🏛️</span>
+                <h3>Government Jobs</h3>
+                <p>Explore public service and government career opportunities.</p>
+                <p><strong>Careers:</strong> SSC, UPSC, Railway, State PSC</p>
+                <p><strong>Qualification:</strong> Class 12 or Graduation, depending on the post</p>
+            </div>
+
+            <div class="career-card">
+                <span class="emoji">🏦</span>
+                <h3>Banking & Finance</h3>
+                <p>Learn about banking, financial services and management.</p>
+                <p><strong>Careers:</strong> Bank PO, Clerk, Financial Analyst</p>
+                <p><strong>Courses:</strong> B.Com, BBA, Economics</p>
+            </div>
+
+            <div class="career-card">
+                <span class="emoji">🩺</span>
+                <h3>Medical & Healthcare</h3>
+                <p>Explore healthcare, medicine and allied health professions.</p>
+                <p><strong>Careers:</strong> Doctor, Nurse, Pharmacist</p>
+                <p><strong>Courses:</strong> MBBS, B.Sc Nursing, B.Pharm</p>
+            </div>
+
+            <div class="career-card">
+                <span class="emoji">🎨</span>
+                <h3>Design & Creative Careers</h3>
+                <p>Turn creativity into a career through visual design and media.</p>
+                <p><strong>Careers:</strong> Graphic Designer, Animator, UI/UX Designer</p>
+                <p><strong>Courses:</strong> B.Des, Animation, Design Diplomas</p>
+            </div>
+
+            <div class="career-card">
+                <span class="emoji">📊</span>
+                <h3>Commerce & Management</h3>
+                <p>Explore business, accounting, marketing and entrepreneurship.</p>
+                <p><strong>Careers:</strong> Manager, Accountant, Marketing Executive</p>
+                <p><strong>Courses:</strong> B.Com, BBA, CA pathway</p>
+            </div>
+
+            <div class="career-card">
+                <span class="emoji">📚</span>
+                <h3>Education & Teaching</h3>
+                <p>Explore careers in teaching, education and academic support.</p>
+                <p><strong>Careers:</strong> Teacher, Educator, Academic Counsellor</p>
+                <p><strong>Courses:</strong> B.Ed and other required qualifications</p>
+            </div>
+
+            <div class="career-card">
+                <span class="emoji">🌍</span>
+                <h3>Arts & Humanities</h3>
+                <p>Explore society, culture, law, communication and public affairs.</p>
+                <p><strong>Careers:</strong> Lawyer, Journalist, Civil Services</p>
+                <p><strong>Courses:</strong> BA, LLB, Journalism</p>
+            </div>
+<div <div class="career-card"
+     onclick="showPage('sscChslProfilePage')"
+     style="cursor: pointer;">
+
+    <span class="emoji">🏛️</span>
+
+    <h3>SSC CHSL</h3>
+
+    <p>Explore central government career opportunities after Class 12.</p>
+
+    <p><strong>Qualification:</strong> Class 12</p>
+
+    <p><strong>Career Sector:</strong> Central Government</p>
+
+    <p style="color: #7b61a8;">
+        Explore Career Profile →
+    </p>
+
+</div>
+</div>
+<div class="career-card"
+     onclick="showPage('rrbNtpcProfilePage')"
+     style="cursor: pointer;">
+
+    <span class="emoji">🚆</span>
+
+    <h3>RRB NTPC</h3>
+
+    <p>Explore railway career opportunities after Class 12.</p>
+
+    <p><strong>Qualification:</strong> Class 12 / Graduation</p>
+
+    <p><strong>Career Sector:</strong> Indian Railways</p>
+
+    <p style="color: #7b61a8;">
+        Explore Career Profile →
+    </p>
+
+</div>
+
+        <p class="coming-soon">
+            More career pathways coming soon ✨
+        </p>
+
+    </div>
+
+</div>
+  
+
+<!-- NOTES PAGE -->
+
+<div id="notesPage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage('homePage')">
+        ← Back to Home
+    </button>
+
+    <div class="hero">
+        <h1>Notes & PYQs 📚</h1>
+
+        <p>
+            Helpful study materials, PYQs and cheat sheets
+            for Classes 6 to 12.
+        </p>
+    </div>
+
+    <div class="panel">
+
+        <h2>Choose Your Class 🎓</h2>
+
+        <p>
+            Select your class to explore
+            your study materials.
+        </p>
+
+        <div class="career-grid">
+
+            <!-- CLASS 6 -->
+
+            <div class="career-card"
+                 onclick="showPage('class6NotesPage')"
+                 style="cursor: pointer;">
+
+                <span class="emoji">🌷</span>
+                <h3>Class 6</h3>
+                <p>Explore Class 6 study notes.</p>
+                <p style="color: #7b61a8;">Explore Subjects →</p>
+
+            </div>
+
+            <!-- CLASS 7 -->
+
+            <div class="career-card"
+                 onclick="showPage('class7NotesPage')"
+                 style="cursor: pointer;">
+
+                <span class="emoji">🌸</span>
+                <h3>Class 7</h3>
+                <p>Explore Class 7 study notes.</p>
+                <p style="color: #7b61a8;">Explore Subjects →</p>
+
+            </div>
+
+            <!-- CLASS 8 -->
+
+            <div class="career-card"
+                 onclick="showPage('class8NotesPage')"
+                 style="cursor: pointer;">
+
+                <span class="emoji">💜</span>
+                <h3>Class 8</h3>
+                <p>Explore Class 8 study notes.</p>
+                <p style="color: #7b61a8;">Explore Subjects →</p>
+
+            </div>
+
+            <!-- CLASS 9 -->
+
+            <div class="career-card"
+                 onclick="showPage('class9NotesPage')"
+                 style="cursor: pointer;">
+
+                <span class="emoji">🦋</span>
+                <h3>Class 9</h3>
+                <p>Explore Class 9 cheat sheets.</p>
+                <p style="color: #7b61a8;">Explore Materials →</p>
+
+            </div>
+
+            <!-- CLASS 10 -->
+
+            <div class="career-card"
+                 onclick="showPage('class10NotesPage')"
+                 style="cursor: pointer;">
+
+                <span class="emoji">🌟</span>
+                <h3>Class 10</h3>
+                <p>PYQs & Cheat Sheets.</p>
+                <p style="color: #7b61a8;">Explore Materials →</p>
+
+            </div>
+
+            <!-- CLASS 11 -->
+
+            <div class="career-card"
+                 onclick="showPage('class11NotesPage')"
+                 style="cursor: pointer;">
+
+                <span class="emoji">📖</span>
+                <h3>Class 11</h3>
+                <p>Explore Class 11 cheat sheets.</p>
+                <p style="color: #7b61a8;">Explore Materials →</p>
+
+            </div>
+
+            <!-- CLASS 12 -->
+
+            <div class="career-card"
+                 onclick="showPage('class12NotesPage')"
+                 style="cursor: pointer;">
+
+                <span class="emoji">🎓</span>
+                <h3>Class 12</h3>
+                <p>PYQs & Cheat Sheets.</p>
+                <p style="color: #7b61a8;">Explore Materials →</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+  
+<!-- CLASS 6 NOTES PAGE -->
+
+<div id="class6NotesPage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage('notesPage')">
+        ← Back to Classes
+    </button>
+
+    <div class="hero">
+        <h1>Class 6 📚</h1>
+
+        <p>
+            Explore subject-wise study notes.
+        </p>    </div>
+
+    <div class="panel">
+
+        <h2>Choose Your Subject 🌷</h2>
+
+        <div class="career-grid">
+
+     <div class="career-card"
+     onclick="openStudySubject('Class 6', 'Notes', 'Mathematics', 'class6NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">➗</span>
+    <h3>Mathematics</h3>
+    <p>Chapter-wise Maths notes.</p>
+
+</div>      
+<div class="career-card"
+     onclick="openStudySubject('Class 6', 'Notes', 'Science', 'class6NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">🔬</span>
+    <h3>Science</h3>
+    <p>Chapter-wise Science notes.</p>
+
+</div>
+    <div class="career-card"
+     onclick="openStudySubject('Class 6', 'Notes', 'Social Science', 'class6NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">🌍</span>
+    <h3>Social Science</h3>
+    <p>Chapter-wise Social Science notes.</p>
+
+</div>
+
+<div class="career-card"
+     onclick="openStudySubject('Class 6', 'Notes', 'English', 'class6NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">📖</span>
+    <h3>English</h3>
+    <p>Chapter-wise English notes.</p>
+
+</div>
+
+            <div class="career-card">
+                <span class="emoji">✍️</span>
+                <h3>Hindi</h3>
+                <p>Hindi chapter notes.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CLASS 7 NOTES PAGE -->
+
+<div id="class7NotesPage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage('notesPage')">
+        ← Back to Classes
+    </button>
+
+    <div class="hero">
+        <h1>Class 7 📚</h1>
+
+        <p>
+            Explore subject-wise study notes.
+        </p>
+    </div>
+
+    <div class="panel">
+
+        <h2>Choose Your Subject 🌸</h2>
+
+        <div class="career-grid">
+<div class="career-card"
+     onclick="openStudySubject('Class 7', 'Notes', 'Mathematics', 'class7NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">➗</span>
+    <h3>Mathematics</h3>
+    <p>Chapter-wise Maths notes.</p>
+
+</div>
+           <div class="career-card"
+     onclick="openStudySubject('Class 7', 'Notes', 'Science', 'class7NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">🔬</span>
+    <h3>Science</h3>
+    <p>Chapter-wise Science notes.</p>
+
+</div> 
+<div class="career-card"
+     onclick="openStudySubject('Class 7', 'Notes', 'Social Science', 'class7NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">🌍</span>
+    <h3>Social Science</h3>
+    <p>Chapter-wise Social Science notes.</p>
+
+</div>
+<div class="career-card"
+     onclick="openStudySubject('Class 7', 'Notes', 'English', 'class7NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">📖</span>
+    <h3>English</h3>
+    <p>Chapter-wise English notes.</p>
+
+</div>
+            
+
+            <div class="career-card">
+                <span class="emoji">✍️</span>
+                <h3>Hindi</h3>
+                <p>Hindi chapter notes.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CLASS 8 NOTES PAGE -->
+
+<div id="class8NotesPage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage('notesPage')">
+        ← Back to Classes
+    </button>
+
+    <div class="hero">
+        <h1>Class 8 📚</h1>
+
+        <p>
+            Explore subject-wise study notes.
+        </p>
+    </div>
+
+    <div class="panel">
+
+        <h2>Choose Your Subject 💜</h2>
+
+        <div class="career-grid">
+<div class="career-card"
+     onclick="openStudySubject('Class 8', 'Notes', 'Mathematics', 'class8NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">➗</span>
+    <h3>Mathematics</h3>
+    <p>Chapter-wise Maths notes.</p>
+
+</div>
+<div class="career-card"
+     onclick="openStudySubject('Class 8', 'Notes', 'Science', 'class8NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">🔬</span>
+    <h3>Science</h3>
+    <p>Chapter-wise Science notes.</p>
+
+</div> 
+<div class="career-card"
+     onclick="openStudySubject('Class 8', 'Notes', 'Social Science', 'class8NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">🌍</span>
+    <h3>Social Science</h3>
+    <p>Chapter-wise Social Science notes.</p>
+
+</div>
+          <div class="career-card"
+     onclick="openStudySubject('Class 8', 'Notes', 'English', 'class8NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">📖</span>
+    <h3>English</h3>
+    <p>Chapter-wise English notes.</p>
+
+</div>
+            <div class="career-card">
+                <span class="emoji">✍️</span>
+                <h3>Hindi</h3>
+                <p>Hindi chapter notes.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CLASS 9 CHEAT SHEETS PAGE -->
+
+<div id="class9NotesPage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage('notesPage')">
+        ← Back to Classes
+    </button>
+
+    <div class="hero">
+        <h1>Class 9 🦋</h1>
+
+        <p>
+            Quick revision with helpful cheat sheets.
+        </p>
+    </div>
+
+    <div class="panel">
+
+        <h2>Choose Your Subject 💜</h2>
+
+        <div class="career-grid">
+
+            <div class="career-card"
+     onclick="openStudySubject('Class 9', 'Cheat Sheets', 'Mathematics', 'class9NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">➗</span>
+    <h3>Mathematics</h3>
+    <p>Mathematics Cheat Sheets.</p>
+
+</div>
+
+        <div class="career-card"
+     onclick="openStudySubject('Class 9', 'Cheat Sheets', 'Science', 'class9NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">🔬</span>
+    <h3>Science</h3>
+    <p>Science Cheat Sheets.</p>
+
+</div>    
+<div class="career-card"
+     onclick="openStudySubject('Class 9', 'Cheat Sheets', 'Social Science', 'class9NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">🌍</span>
+    <h3>Social Science</h3>
+    <p>Social Science Cheat Sheets.</p>
+
+</div>
+
+<div class="career-card"
+     onclick="openStudySubject('Class 9', 'Cheat Sheets', 'English', 'class9NotesPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">📖</span>
+    <h3>English</h3>
+    <p>English Cheat Sheets.</p>
+
+</div>"
+            <div class="career-card">
+                <span class="emoji">✍️</span>
+                <h3>Hindi</h3>
+                <p>Hindi revision cheat sheets.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CLASS 10 NOTES & PYQs PAGE -->
+
+<div id="class10NotesPage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage('notesPage')">
+        ← Back to Classes
+    </button>
+
+    <div class="hero">
+        <h1>Class 10 🌟</h1>
+
+        <p>
+            Prepare smarter with PYQs and quick revision cheat sheets.
+        </p>
+    </div>
+
+    <div class="panel">
+
+        <h2>Choose Your Study Material 💜</h2>
+
+        <div class="career-grid">
+
+           <div class="career-card"
+     onclick="showPage('class10PYQPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">📝</span>
+    <h3>Previous Year Questions</h3>
+    <p>Practice previous year question papers.</p>
+
+</div>
+                    Practice previous year question papers
+                    for exam preparation.
+                </>
+                <p style="color: #7b61a8;">
+                    Explore PYQs →
+                </p>
+            </div>
+
+            <div class="career-card"
+     onclick="showPage('class10CheatPage')"
+     style="cursor:pointer;">
+
+    <span class="emoji">✨</span>
+    <h3>Cheat Sheets</h3>
+    <p>Quick revision sheets for Class 10.</p>
+
+</div>
+                    Quick revision notes, formulas
+                    and important concepts.
+                </>
+                <p style="color: #7b61a8;">
+                    Explore Cheat Sheets →
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CLASS 10 CHEAT SHEETS SUBJECT PAGE -->
+
+<div id="class10CheatPage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage('class10NotesPage')">
+        ← Back
+    </button>
+
+    <div class="hero">
+        <h1>Class 10 Cheat Sheets ✨</h1>
+        <p>Quick revision and important concepts.</p>
+    </div>
+
+    <div class="panel">
+        <h2>Choose Your Subject 💜</h2>
+
+        <div class="career-grid">
+
+            <div class="career-card"
+                 onclick="openStudySubject('Class 10', 'Cheat Sheets', 'Mathematics', 'class10CheatPage')"
+                 style="cursor:pointer;">
+                <span class="emoji">➗</span>
+                <h3>Mathematics</h3>
+                <p>Mathematics Cheat Sheets.</p>
+            </div>
+
+            <div class="career-card"
+                 onclick="openStudySubject('Class 10', 'Cheat Sheets', 'Science', 'class10CheatPage')"
+                 style="cursor:pointer;">
+                <span class="emoji">🔬</span>
+                <h3>Science</h3>
+                <p>Science Cheat Sheets.</p>
+            </div>
+
+            <div class="career-card"
+                 onclick="openStudySubject('Class 10', 'Cheat Sheets', 'Social Science', 'class10CheatPage')"
+                 style="cursor:pointer;">
+                <span class="emoji">🌍</span>
+                <h3>Social Science</h3>
+                <p>Social Science Cheat Sheets.</p>
+            </div>
+
+            <div class="career-card"
+                 onclick="openStudySubject('Class 10', 'Cheat Sheets', 'English', 'class10CheatPage')"
+                 style="cursor:pointer;">
+                <span class="emoji">📖</span>
+                <h3>English</h3>
+                <p>English Cheat Sheets.</p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- END CLASS 10 CHEAT SHEETS PAGE -->
+
+  <!-- CLASS 10 PREVIOUS YEAR QUESTIONS PAGE -->
+
+<div id="class10PYQPage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage('class10NotesPage')">
+        ← Back
+    </button>
+
+    <div class="hero">
+        <h1>Class 10 PYQs 📝</h1>
+        <p>Practice previous year questions and prepare smarter.</p>
+    </div>
+
+    <div class="career-grid">
+
+        <div class="career-card"
+             onclick="openStudySubject('Class 10', 'PYQ', 'Mathematics', 'class10PYQPage')"
+             style="cursor:pointer;">
+            <span class="emoji">➗</span>
+            <h3>Mathematics</h3>
+        </div>
+
+        <div class="career-card"
+             onclick="openStudySubject('Class 10', 'PYQ', 'Science', 'class10PYQPage')"
+             style="cursor:pointer;">
+            <span class="emoji">🔬</span>
+            <h3>Science</h3>
+        </div>
+
+        <div class="career-card"
+             onclick="openStudySubject('Class 10', 'PYQ', 'Social Science', 'class10PYQPage')"
+             style="cursor:pointer;">
+            <span class="emoji">🌍</span>
+            <h3>Social Science</h3>
+        </div>
+
+        <div class="career-card"
+             onclick="openStudySubject('Class 10', 'PYQ', 'English', 'class10PYQPage')"
+             style="cursor:pointer;">
+            <span class="emoji">📖</span>
+            <h3>English</h3>
+        </div>
+
+    </div>
+</div>
+
+<!-- CLASS 11 CHEAT SHEETS PAGE -->
+
+<div id="class11NotesPage" class="page">
+
+    <header>
+        <button class="back-button" onclick="showPage('notesPage')">←</button>
+        <div class="logo">Class 11 🎓</div>
+    </header>
+
+    <div class="hero">
+        <h1>Class 11 Cheat Sheets ✨</h1>
+        <p>Quick revision material for every stream.</p>
+    </div>
+
+    <div class="panel">
+        <h2>Choose Your Subject 💜</h2>
+
+        <div class="career-grid">
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Physics', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">⚛️</div>
+                <h3>Physics</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Chemistry', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">🧪</div>
+                <h3>Chemistry</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Mathematics', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">➗</div>
+                <h3>Mathematics</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Biology', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">🧬</div>
+                <h3>Biology</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Accountancy', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">📊</div>
+                <h3>Accountancy</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Business Studies', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">💼</div>
+                <h3>Business Studies</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Economics', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">📈</div>
+                <h3>Economics</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'History', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">🏛️</div>
+                <h3>History</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Geography', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">🌍</div>
+                <h3>Geography</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Political Science', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">⚖️</div>
+                <h3>Political Science</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Sociology', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">👥</div>
+                <h3>Sociology</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'Psychology', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">🧠</div>
+                <h3>Psychology</h3>
+            </div>
+
+            <div class="career-card" onclick="openStudySubject('Class 11', 'Cheat Sheets', 'English', 'class11NotesPage')" style="cursor:pointer;">
+                <div class="emoji">📖</div>
+                <h3>English</h3>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- CLASS 12 MAIN PAGE -->
+<div id="class12NotesPage" class="page">
+
+    <header>
+        <button class="back-button" onclick="showPage('notesPage')">←</button>
+        <div class="logo">Class 12 🎓</div>
+    </header>
+
+    <div class="hero">
+        <h1>Class 12 📚</h1>
+        <p>Study material for your board preparation.</p>
+    </div>
+
+    <div class="panel">
+        <h2>Choose Your Study Material 💜</h2>
+
+        <div class="career-grid">
+
+            <div class="career-card" onclick="showPage('class12PYQPage')">
+                <div class="emoji">📝</div>
+                <h3>Previous Year Questions</h3>
+                <p>Explore PYQs →</p>
+            </div>
+
+            <div class="career-card" onclick="showPage('class12CheatPage')">
+                <div class="emoji">✨</div>
+                <h3>Cheat Sheets</h3>
+                <p>Explore Cheat Sheets →</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- CLASS 12 PYQ PAGE -->
+
+<div id="class12PYQPage" class="page">
+
+    <header>
+        <button class="back-button" onclick="showPage('class12NotesPage')">←</button>
+        <div class="logo">Class 12 PYQs 📝</div>
+    </header>
+
+    <div class="hero">
+        <h1>Previous Year Questions</h1>
+        <p>Choose your subject.</p>
+    </div>
+
+    <div class="panel">
+        <h2>Select Subject 💜</h2>
+
+        <div class="career-grid">
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Physics', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">⚛️</div><h3>Physics</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Chemistry', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">🧪</div><h3>Chemistry</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Mathematics', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">➗</div><h3>Mathematics</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Biology', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">🧬</div><h3>Biology</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Accountancy', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">📊</div><h3>Accountancy</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Business Studies', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">💼</div><h3>Business Studies</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Economics', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">📈</div><h3>Economics</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'History', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">🏛️</div><h3>History</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Geography', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">🌍</div><h3>Geography</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Political Science', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">⚖️</div><h3>Political Science</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Sociology', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">👥</div><h3>Sociology</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'Psychology', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">🧠</div><h3>Psychology</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'PYQ', 'English', 'class12PYQPage')" style="cursor:pointer;"><div class="emoji">📖</div><h3>English</h3></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- CLASS 12 CHEAT SHEETS PAGE -->
+
+<div id="class12CheatPage" class="page">
+
+    <header>
+        <button class="back-button" onclick="showPage('class12NotesPage')">←</button>
+        <div class="logo">Class 12 Cheat Sheets ✨</div>
+    </header>
+
+    <div class="hero">
+        <h1>Cheat Sheets 📚</h1>
+        <p>Quick revision material for every stream.</p>
+    </div>
+
+    <div class="panel">
+        <h2>Select Subject 💜</h2>
+
+        <div class="career-grid">
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Physics', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">⚛️</div><h3>Physics</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Chemistry', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">🧪</div><h3>Chemistry</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Mathematics', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">➗</div><h3>Mathematics</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Biology', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">🧬</div><h3>Biology</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Accountancy', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">📊</div><h3>Accountancy</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Business Studies', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">💼</div><h3>Business Studies</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Economics', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">📈</div><h3>Economics</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'History', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">🏛️</div><h3>History</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Geography', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">🌍</div><h3>Geography</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Political Science', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">⚖️</div><h3>Political Science</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Sociology', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">👥</div><h3>Sociology</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'Psychology', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">🧠</div><h3>Psychology</h3></div>
+
+            <div class="career-card" onclick="openStudySubject('Class 12', 'Cheat Sheets', 'English', 'class12CheatPage')" style="cursor:pointer;"><div class="emoji">📖</div><h3>English</h3></div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- STUDY MATERIAL PDF VIEWER -->
+
+<div id="studyMaterialViewerPage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage(previousStudyPage)">
+        ← Back
+    </button>
+
+    <div class="hero">
+        <h1 id="studyViewerHeading">Study Material 📚</h1>
+        <p id="studyViewerSubheading">
+            Your uploaded study materials.
+        </p>
+    </div>
+
+    <div class="panel">
+        <div id="studyMaterialList">
+            Select a subject to view its PDFs.
+        </div>
+    </div>
+
+</div>
+
+<!-- END STUDY MATERIAL PDF VIEWER -->
+
+
+
+
+
+
+
+
+<!-- SSC CHSL CAREER PROFILE -->
+
+<div id="sscChslProfilePage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage('careerGuidePage')">
+        ← Back to Career Guide
+    </button>
+
+    <div class="hero">
+        <h1>SSC CHSL 🏛️</h1>
+
+        <p>
+            Explore a central government career
+            after completing Class 12.
+        </p>
+    </div>
+
+    <div class="panel">
+
+        <h2>Career Overview ✨</h2>
+
+        <p>
+            SSC CHSL stands for Staff Selection Commission
+            Combined Higher Secondary Level Examination.
+        </p>
+
+        <p>
+            It is a competitive examination for recruitment
+            to eligible central government posts.
+        </p>
+
+        <hr>
+
+        <h2>Job Opportunities 💼</h2>
+
+        <div class="career-card">
+            <h3>Lower Division Clerk (LDC)</h3>
+            <p>
+                Handles clerical work, records,
+                files and office documentation.
+            </p>
+        </div>
+
+        <div class="career-card">
+            <h3>Junior Secretariat Assistant (JSA)</h3>
+            <p>
+                Performs administrative and
+                secretariat-related office duties.
+            </p>
+        </div>
+
+        <div class="career-card">
+            <h3>Data Entry Operator (DEO)</h3>
+            <p>
+                Performs data entry and computer-based
+                information processing tasks.
+            </p>
+        </div>
+
+        <hr>
+
+        <h2>Eligibility 🎓</h2>
+
+        <p>
+            <strong>Educational Qualification:</strong>
+            Class 12 pass or equivalent.
+        </p>
+
+        <p>
+            Certain DEO posts may require specific
+            subjects such as Science with Mathematics.
+        </p>
+
+        <p>
+            Age limits and other requirements depend
+            on the official recruitment notification.
+        </p>
+
+        <hr>
+
+        <h2>Selection Process 📝</h2>
+
+        <ul>
+            <li>Tier-I examination</li>
+            <li>Tier-II examination</li>
+            <li>Typing Test or Skill Test, where applicable</li>
+            <li>Document Verification</li>
+        </ul>
+
+        <p>
+            The exact selection process is subject
+            to the applicable SSC notification.
+        </p>
+
+        <hr>
+
+        <h2>Subjects to Prepare 📚</h2>
+
+        <ul>
+            <li>English Language</li>
+            <li>General Intelligence and Reasoning</li>
+            <li>Quantitative Aptitude</li>
+            <li>General Awareness</li>
+        </ul>
+
+        <hr>
+
+        <h2>Career Path 📈</h2>
+
+        <p>
+            Class 12 → SSC CHSL Preparation →
+            Competitive Examination → Selection →
+            Government Service
+        </p>
+
+        <hr>
+
+        <h2>Official Resources 🔗</h2>
+
+        <p>
+            Visit the official SSC website for
+            recruitment notifications and examination details.
+        </p>
+
+        <a href="https://ssc.gov.in/"
+           target="_blank"
+           rel="noopener noreferrer">
+            Visit Official SSC Website ↗
+        </a>
+
+    </div>
+
+</div>
+  <!-- RRB NTPC CAREER PROFILE -->
+
+<div id="rrbNtpcProfilePage" class="page">
+
+    <button class="back-btn"
+            onclick="showPage('careerGuidePage')">
+        ← Back to Career Guide
+    </button>
+
+    <div class="hero">
+        <h1>RRB NTPC 🚆</h1>
+
+        <p>
+            Explore railway career opportunities
+            through the Non-Technical Popular Categories examination.
+        </p>
+    </div>
+
+    <div class="panel">
+
+        <h2>Career Overview ✨</h2>
+
+        <p>
+            RRB NTPC stands for Railway Recruitment Board
+            Non-Technical Popular Categories.
+        </p>
+
+        <p>
+            It is a competitive examination conducted
+            for various non-technical posts in Indian Railways.
+        </p>
+
+        <hr>
+
+        <h2>Job Opportunities 💼</h2>
+
+        <div class="career-card">
+            <h3>Commercial cum Ticket Clerk</h3>
+            <p>
+                Handles ticketing and commercial
+                responsibilities at railway stations.
+            </p>
+        </div>
+
+        <div class="career-card">
+            <h3>Accounts Clerk cum Typist</h3>
+            <p>
+                Performs clerical and accounts-related
+                work with typing responsibilities.
+            </p>
+        </div>
+
+        <div class="career-card">
+            <h3>Junior Clerk cum Typist</h3>
+            <p>
+                Handles office records, documentation
+                and clerical work.
+            </p>
+        </div>
+
+        <div class="career-card">
+            <h3>Trains Clerk</h3>
+            <p>
+                Performs train-related clerical
+                and operational record duties.
+            </p>
+        </div>
+
+        <hr>
+
+        <h2>Eligibility 🎓</h2>
+
+        <p>
+            <strong>Undergraduate Posts:</strong>
+            Class 12 pass or equivalent.
+        </p>
+
+        <p>
+            Some undergraduate posts may require
+            at least 50% marks in Class 12,
+            subject to applicable exceptions.
+        </p>
+
+        <p>
+            <strong>Graduate Posts:</strong>
+            A university degree is required.
+        </p>
+
+        <p>
+            Age limits and eligibility conditions
+            depend on the official RRB notification.
+        </p>
+
+        <hr>
+
+        <h2>Selection Process 📝</h2>
+
+        <ul>
+            <li>Computer Based Test (CBT 1)</li>
+            <li>Computer Based Test (CBT 2)</li>
+            <li>Typing Skill Test, where applicable</li>
+            <li>Document Verification</li>
+            <li>Medical Examination</li>
+        </ul>
+
+        <p>
+            The selection stages vary according
+            to the post and official notification.
+        </p>
+
+        <hr>
+
+        <h2>Subjects to Prepare 📚</h2>
+
+        <ul>
+            <li>Mathematics</li>
+            <li>General Intelligence and Reasoning</li>
+            <li>General Awareness</li>
+        </ul>
+
+        <hr>
+
+        <h2>Career Path 📈</h2>
+
+        <p>
+            Class 12 → RRB NTPC Preparation →
+            CBT Examinations → Post-specific Tests →
+            Document Verification → Railway Service
+        </p>
+
+        <hr>
+
+        <h2>Official Resources 🔗</h2>
+
+        <p>
+            Check the official Railway Recruitment Board
+            websites for recruitment notifications,
+            eligibility and examination updates.
+        </p>
+
+        <a href="https://www.rrbcdg.gov.in/"
+           target="_blank"
+           rel="noopener noreferrer">
+            Visit Official RRB Website ↗
+        </a>
+
+    </div>
+
+</div>
+<!-- MENU PANEL -->
+
+<div id="menuPanel" class="menu-panel hidden">
+
+<div class="profile-card">
+    <div class="profile-avatar">🌷</div>
+    <h3 id="profileName">Student</h3>
+    <p id="profileEmail">Your StudySorter space</p>
+</div>
+
+<button class="menu-item" onclick="openMenuPage('profilePage')">
+    <span>👤</span> Profile
+</button>
+<button class="menu-item" onclick="showPage('studentAuthPage')">
+    <span>🔐</span> Student Login / Signup
+</button>
+  
+<button class="menu-item" onclick="openMenuPage('settingsPage')">
+    <span>⚙️</span> Settings
+</button>
+
+<button class="menu-item" onclick="openMenuPage('opinionPage')">
+    <span>💌</span> Opinion Section
+</button>
+
+<button class="menu-item" onclick="openMenuPage('helpPage')">
+    <span>❔</span> Help & FAQs
+</button>
+
+<button class="menu-item" onclick="openMenuPage('aboutPage')">
+    <span>💜</span> About StudySorter
+</button>
+
+<button class="menu-item" onclick="showPage('adminPage')">
+    <span>🔐</span> Admin Panel
+</button>
+
+</div>
+
+<!-- PROFILE -->
+
+<section id="profilePage" class="page">
+
+<header>
+    <button class="back-button" onclick="goHome()">←</button>
+    <div class="logo">Your Profile 👤</div>
+</header>
+
+<div class="panel">
+    <h2>Student details</h2>
+
+    <input id="profileNameInput" placeholder="Your name">
+
+    <input id="profileEmailInput" type="email"
+           placeholder="Email address" style="margin-top:10px;">
+
+    <button class="primary-button" style="width:100%; margin-top:12px;" onclick="saveProfile()">Save Profile</button>
+
+    <p class="small-note">This is a local profile for now. Email and Google login can be added later with an account service.</p>
+</div>
+
+</section>
+
+<!-- ADMIN PANEL -->
+
+<section id="adminPage" class="page">
+
+    <header>
+        <button class="back-button" onclick="goHome()">←</button>
+        <div class="logo">Admin Panel 🔐</div>
+    </header>
+
+    <div class="panel">
+
+        <h2>Study Material Manager</h2>
+
+        <p class="small-note">
+            Login to manage StudySorter study materials.
+        </p>
+
+        <div id="adminLoginSection">
+
+            <input
+                id="adminEmail"
+                type="email"
+                placeholder="Admin email address"
+            >
+
+            <input
+                id="adminPassword"
+                type="password"
+                placeholder="Admin password"
+                style="margin-top:10px;"
+            >
+
+            <button
+                class="primary-button"
+                style="width:100%; margin-top:12px;"
+                onclick="adminLogin()"
+            >
+                Login as Admin
+            </button>
+
+        </div>
+
+        <div id="adminUploadSection" class="hidden">
+
+<!-- NOTIFICATIONS MANAGER -->
+
+<div class="admin-section" style="margin-bottom:25px;">
+    <h2>🔔 Notifications Manager</h2>
+    <p>Create updates for all StudySorter students.</p>
+
+    <input
+        type="text"
+        id="notificationTitle"
+        placeholder="Notification title"
+    >
+
+    <textarea
+        id="notificationMessage"
+        placeholder="Write your notification here..."
+        rows="4"
+    ></textarea>
+
+    <button onclick="saveNotification()">
+        Publish Notification ✨
+    </button>
+
+    <div id="adminNotificationsList" style="margin-top:18px;">
+        Loading notifications...
+    </div>
+</div>
+
+            <h3>Upload Study Material 📚</h3>
+
+            <input
+                id="materialTitle"
+                type="text"
+                placeholder="PDF title"
+            >
+
+            <select
+                id="materialClass"
+                style="margin-top:10px;"
+                onchange="updateMaterialOptions()"
+            >
+                <option value="">Select Class</option>
+                <option value="Class 6">Class 6</option>
+                <option value="Class 7">Class 7</option>
+                <option value="Class 8">Class 8</option>
+                <option value="Class 9">Class 9</option>
+                <option value="Class 10">Class 10</option>
+                <option value="Class 11">Class 11</option>
+                <option value="Class 12">Class 12</option>
+            </select>
+
+            <select
+                id="materialType"
+                style="margin-top:10px;"
+            >
+                <option value="">Select Material Type</option>
+            </select>
+
+            <select
+                id="materialSubject"
+                style="margin-top:10px;"
+            >
+                <option value="">Select Subject</option>
+            </select>
+
+            <input
+                id="materialChapter"
+                type="text"
+                placeholder="Chapter name (optional)"
+                style="margin-top:10px;"
+            >
+
+            <input
+                id="materialPDF"
+                type="file"
+                accept="application/pdf"
+                style="margin-top:10px;"
+            >
+
+            <button
+                class="primary-button"
+                style="width:100%; margin-top:12px;"
+                onclick="uploadStudyMaterial()"
+            >
+                Upload PDF
+            </button>
+
+            <button
+                class="primary-button"
+                style="width:100%; margin-top:12px;"
+                onclick="loadAdminFeedback()"
+            >
+                View Student Feedback 💌
+            </button>
+
+            <div
+                id="adminFeedbackInbox"
+                class="panel"
+                style="margin-top:15px;"
+            >
+                <h2>Student Feedback 💌</h2>
+
+                <div id="adminFeedbackList" class="small-note">
+                    Click View Student Feedback to load opinions.
+                </div>
+            </div>
+
+<div class="panel" style="margin-top:15px;">
+    <h2>Your Voice Manager 💜</h2>
+    <p class="small-note">
+        Manage student posts and reply as StudySorter Admin.
+    </p>
+
+    <button
+        class="primary-button"
+        style="width:100%; margin-top:12px;"
+        onclick="loadAdminVoicePosts()"
+    >
+        Load Your Voice Posts
+    </button>
+
+    <div id="adminVoicePostsList" style="margin-top:15px;">
+        Click above to load student posts.
+    </div>
+</div>
+
+            <button
+                class="menu-item"
+                style="width:100%; margin-top:15px;"
+                onclick="adminLogout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+        <p id="adminMessage" class="small-note"></p>
+
+    </div>
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settingsPage" class="page">
+
+<header>
+    <button class="back-button" onclick="goHome()">←</button>
+    <div class="logo">Settings ⚙️</div>
+</header>
+
+<div class="panel">
+    <h2>StudySorter settings</h2>
+
+    <p class="small-note">Your tasks and study progress are saved locally on this device.</p>
+
+    <button class="secondary-button" style="margin-top:15px;" onclick="clearAllData()">Clear saved study data</button>
+</div>
+
+</section>
+
+<!-- OPINION -->
+
+<section id="opinionPage" class="page">
+
+<header>
+    <button class="back-button" onclick="goHome()">←</button>
+    <div class="logo">Opinion Section 💌</div>
+</header>
+
+<div class="panel">
+    <h2>Share your thoughts</h2>
+
+    <textarea id="opinionInput" rows="5" placeholder="What would you like to tell us?"></textarea>
+
+    <button class="primary-button" style="width:100%; margin-top:12px;" onclick="saveOpinion()">Save Opinion</button>
+
+    <div id="opinionMessage" class="small-note"></div>
+<p class="small-note">
+    Your feedback is private and can only be viewed by the StudySorter admin. 💜
+</p>
+    </div>
+
+</section>
+
+
+<!-- HELP -->
+
+<section id="helpPage" class="page">
+
+<header>
+    <button class="back-button" onclick="goHome()">←</button>
+    <div class="logo">Help & FAQs ❔</div>
+</header>
+
+<div class="panel">
+    <h2>Frequently Asked Questions</h2>
+
+    <h3 style="margin:15px 0 7px;">1. How do I use Study Hub?</h3>
+    <p class="small-note">Open Study Hub from the homepage and choose To-Do List, Timetable, Today's Study Time, or Syllabus Tracker to organize your studies.</p>
+
+    <h3 style="margin:15px 0 7px;">2. Is StudySorter free to use?</h3>
+    <p class="small-note">StudySorter is designed to provide students with free study and organization tools. You don't need to pay to use the available free features.</p>
+
+    <h3 style="margin:15px 0 7px;">3. Do I need a student account?</h3>
+    <p class="small-note">You can explore available features without creating an account. A student account is used for account-based features and study-data syncing.</p>
+
+    <h3 style="margin:15px 0 7px;">4. Are my tasks and study progress saved?</h3>
+    <p class="small-note">Study Hub data is saved in your browser on your device. When cloud syncing is available, your account will help keep your study data accessible across devices.</p>
+
+    <h3 style="margin:15px 0 7px;">5. Can I access my study data on another device?</h3>
+    <p class="small-note">Cross-device syncing is currently being tested. We'll announce when it has been tested and made available.</p>
+
+    <h3 style="margin:15px 0 7px;">6. How can I clear my saved study data?</h3>
+    <p class="small-note">Open Settings and select "Clear saved study data". Read the confirmation message carefully before proceeding.</p>
+
+    <h3 style="margin:15px 0 7px;">7. What is the difference between Opinion Section and Your Voice?</h3>
+    <p class="small-note">Opinion Section is for private feedback that only the StudySorter admin can view. Your Voice is a public space where student posts and names are visible to other users.</p>
+
+    <h3 style="margin:15px 0 7px;">8. Where can I find scholarships?</h3>
+    <p class="small-note">Open Scholarship Finder to explore scholarship information. Always check the official application portal for the latest eligibility rules and deadlines.</p>
+
+    <h3 style="margin:15px 0 7px;">9. How can I contact StudySorter?</h3>
+    <p class="small-note">For questions, suggestions, or assistance, email us at <a href="mailto:contactstudysorter@gmail.com">contactstudysorter@gmail.com</a>.</p>
+
+</div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section id="aboutPage" class="page">
+
+<header>
+    <button class="back-button" onclick="goHome()">←</button>
+    <div class="logo">About StudySorter 💜</div>
+</header>
+
+<div class="hero">
+    <h1>StudySorter ✨</h1>
+    <p>Your student life. Sorted.</p>
+</div>
+
+<div class="panel">
+    <h2>Our little mission 🌷</h2>
+
+    <p class="small-note">
+        StudySorter is a student-focused project designed to make studying,
+        organizing tasks, planning schedules, tracking syllabus progress,
+        and discovering educational opportunities easier.
+    </p>
+
+    <p class="small-note">Made for students, with love 💜</p>
+    <p class="small-note">© 2026 StudySorter</p>
+</div>
+
+</section>
+
+<!-- STUDENT LOGIN AND SIGNUP -->
+
+<section id="studentAuthPage" class="page">
+
+    <header>
+        <button class="back-button" onclick="goHome()">←</button>
+        <div class="logo">Student Account 💜</div>
+    </header>
+
+    <div class="panel">
+
+        <div id="studentSignupSection">
+            <h2>Create your account 🌸</h2>
+            <p class="small-note">Join the StudySorter community!</p>
+
+            <input id="studentSignupName"
+                   type="text"
+                   placeholder="Your full name">
+
+            <input id="studentSignupEmail"
+                   type="email"
+                   placeholder="Email address"
+                   style="margin-top:10px;">
+
+            <input id="studentSignupPassword"
+                   type="password"
+                   placeholder="Create password (minimum 6 characters)"
+                   style="margin-top:10px;">
+
+            <button class="primary-button"
+                    style="width:100%; margin-top:15px;"
+                    onclick="studentSignup()">
+                Create Account
+            </button>
+
+            <button class="secondary-button"
+                    style="width:100%; margin-top:10px;"
+                    onclick="studentGoogleLogin()">
+                Continue with Google
+            </button>
+
+            <p class="small-note" style="margin-top:15px;">
+                Already have an account?
+                <a href="#" onclick="showStudentLogin(); return false;">
+                    Login here
+                </a>
+            </p>
+        </div>
+
+        <div id="studentLoginSection" class="hidden">
+            <h2>Welcome back! 💜</h2>
+
+            <input id="studentLoginEmail"
+                   type="email"
+                   placeholder="Email address">
+
+            <input id="studentLoginPassword"
+                   type="password"
+                   placeholder="Password"
+                   style="margin-top:10px;">
+
+            <button class="primary-button"
+                    style="width:100%; margin-top:15px;"
+                    onclick="studentLogin()">
+                Login
+            </button>
+
+            <button class="secondary-button"
+                    style="width:100%; margin-top:10px;"
+                    onclick="studentGoogleLogin()">
+                Continue with Google
+            </button>
+
+            <p class="small-note" style="margin-top:15px;">
+                New to StudySorter?
+                <a href="#" onclick="showStudentSignup(); return false;">
+                    Create an account
+                </a>
+            </p>
+        </div>
+
+        <div id="studentAuthMessage"
+             class="small-note"
+             style="margin-top:15px;">
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+/* ---------------------------------
+   STORAGE
+--------------------------------- */
+
+const STORAGE = {
+    tasks: "studysorter_tasks",
+    schedule: "studysorter_schedule",
+    syllabus: "studysorter_syllabus",
+    studyTime: "studysorter_study_time",
+    profile: "studysorter_profile",
+    opinions: "studysorter_opinions"
+};
+
+function loadData(key, fallback) {
+    try {
+        const saved = localStorage.getItem(key);
+        return saved ? JSON.parse(saved) : fallback;
+    } catch (error) {
+        return fallback;
+    }
+}
+
+function saveData(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+
+    const syncKeys = [
+        STORAGE.tasks,
+        STORAGE.schedule,
+        STORAGE.syllabus,
+        STORAGE.studyTime
+    ];
+
+    if (syncKeys.includes(key) && studyDataSyncReady) {
+        saveData.syncQueue = (saveData.syncQueue || Promise.resolve())
+            .then(() => syncStudyDataToCloud())
+            .catch(error => {
+                console.error("Study data sync failed:", error);
+            });
+    }
+}
+
+
+/* ---------------------------------
+NAVIGATION
+--------------------------------- */
+
+const allPages = document.querySelectorAll(".page");
+
+function showPage(pageId) {
+    allPages.forEach(page => page.classList.remove("active"));
+
+    const page = document.getElementById(pageId);
+
+    if (page) {
+        page.classList.add("active");
+    }
+
+    document.getElementById("menuPanel").classList.add("hidden");
+    window.scrollTo(0, 0);
+}
+
+function goHome() {
+    showPage("homePage");
+}
+
+async function checkNotificationBell() {
+    const dot = document.getElementById("notificationBellDot");
+
+    if (!dot) return;
+
+    const { data, error } = await studySorterSupabase
+        .from("notifications")
+        .select("created_at")
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+    if (error) {
+        console.error("Notification bell error:", error);
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        dot.style.display = "none";
+        return;
+    }
+
+    const lastVisit = localStorage.getItem(
+        "studySorterLastNotificationVisit"
+    );
+
+    const hasUnread = !lastVisit ||
+        new Date(data[0].created_at) > new Date(lastVisit);
+
+    dot.style.display = hasUnread ? "block" : "none";
+}
+  
+async function openNotifications() {
+    localStorage.setItem(
+        "studySorterLastNotificationVisit",
+        new Date().toISOString()
+    );
+
+    const dot = document.getElementById("notificationBellDot");
+    if (dot) dot.style.display = "none";
+
+    showPage("notificationsPage");
+    await loadNotifications();
+}
+ 
+
+  async function loadNotifications() {
+    const list = document.getElementById("notificationsList");
+
+    list.innerHTML =
+        '<div class="empty-message">Loading notifications... 💜</div>';
+
+    const { data, error } = await studySorterSupabase
+        .from("notifications")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        list.innerHTML =
+            '<div class="empty-message">Could not load notifications. Please try again later.</div>';
+        console.error("Notifications error:", error);
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        list.innerHTML =
+            '<div class="empty-message">No notifications yet. Check back soon! 🌸</div>';
+        return;
+    }
+
+    list.innerHTML = data.map(item => `
+        <div class="list-item" style="display:block; margin-bottom:14px;">
+            <div style="font-weight:700; color:#7053b7;">
+                ${escapeHTML(item.title)}
+            </div>
+
+            <div style="margin-top:8px;">
+                ${escapeHTML(item.message)}
+            </div>
+
+            <div class="small-note" style="margin-top:10px;">
+                ${new Date(item.created_at).toLocaleString()}
+            </div>
+        </div>
+    `).join("");
+}
+
+function openStudyHub() {
+    showPage("studyHub");
+}
+
+function openFeature(pageId) {
+    showPage(pageId);
+
+    if (pageId === "todoPage") renderTodos();
+    if (pageId === "timetablePage") renderSchedule();
+    if (pageId === "syllabusPage") renderSyllabus();
+}
+
+function openScholarshipFinder() {
+    showPage("scholarshipFinder");
+    renderScholarships();
+}
+
+function showComingSoon(name) {
+    document.getElementById("comingSoonTitle").textContent = name + " — Coming Soon!";
+    showPage("comingSoonPage");
+}
+
+function toggleMenu() {
+    document.getElementById("menuPanel").classList.toggle("hidden");
+}
+
+function openMenuPage(pageId) {
+    showPage(pageId);
+
+    if (pageId === "profilePage") {
+        const profile = loadData(STORAGE.profile, { name: "", email: "" });
+
+        document.getElementById("profileNameInput").value = profile.name || "";
+        document.getElementById("profileEmailInput").value = profile.email || "";
+    }
+}
+
+/* ---------------------------------
+TO-DO LIST
+--------------------------------- */
+
+let tasks = loadData(STORAGE.tasks, []);
+
+function addTodo() {
+    const input = document.getElementById("todoInput");
+    const text = input.value.trim();
+
+    if (!text) {
+        alert("Please enter a task.");
+        return;
+    }
+
+    tasks.push({
+        id: Date.now(),
+        text: text,
+        completed: false
+    });
+
+    saveData(STORAGE.tasks, tasks);
+    input.value = "";
+    renderTodos();
+}
+
+function toggleTodo(id) {
+    tasks = tasks.map(task => {
+        if (task.id === id) {
+            task.completed = !task.completed;
+        }
+
+        return task;
+    });
+
+    saveData(STORAGE.tasks, tasks);
+    renderTodos();
+}
+
+function deleteTodo(id) {
+    tasks = tasks.filter(task => task.id !== id);
+    saveData(STORAGE.tasks, tasks);
+    renderTodos();
+}
+
+function renderTodos() {
+    const list = document.getElementById("todoList");
+
+    if (!tasks.length) {
+        list.innerHTML = '<div class="empty-message">Your tasks will appear here 🌷</div>';
+        return;
+    }
+
+    list.innerHTML = tasks.map(task => `
+        <div class="list-item ${task.completed ? "completed" : ""}">
+            <input type="checkbox"
+                ${task.completed ? "checked" : ""}
+                onchange="toggleTodo(${task.id})"
+                style="width:18px; accent-color:#9b7bea;">
+
+            <div class="item-text">${escapeHTML(task.text)}</div>
+
+            <button class="delete-button" onclick="deleteTodo(${task.id})">✕</button>
+        </div>
+    `).join("");
+}
+
+/* ---------------------------------
+CUSTOM TIME PICKER
+--------------------------------- */
+
+let activeTimeInput = null;
+let selectedHour = 9;
+let selectedMinute = 0;
+
+function openTimePicker(inputId) {
+    activeTimeInput = inputId;
+
+    const input = document.getElementById(inputId);
+
+    let defaultTime = input.value;
+
+    if (!defaultTime) {
+        defaultTime = inputId === "scheduleStart" ? "09:00" : "10:00";
+    }
+
+    const parts = defaultTime.split(":");
+
+    selectedHour = Number(parts[0]);
+    selectedMinute = Number(parts[1]);
+
+    renderClockOptions();
+
+    document.getElementById("timePickerModal").classList.remove("hidden");
+}
+
+function renderClockOptions() {
+    const hourContainer = document.getElementById("clockHours");
+    const minuteContainer = document.getElementById("clockMinutes");
+
+    hourContainer.innerHTML = "";
+    minuteContainer.innerHTML = "";
+
+    for (let hour = 0; hour < 24; hour++) {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "clock-option" +
+            (hour === selectedHour ? " active" : "");
+
+        button.textContent = String(hour).padStart(2, "0");
+
+        button.onclick = function() {
+            selectClockHour(hour);
+        };
+
+        hourContainer.appendChild(button);
+    }
+
+    for (let minute = 0; minute < 60; minute += 5) {
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "clock-option" +
+            (minute === selectedMinute ? " active" : "");
+
+        button.textContent = String(minute).padStart(2, "0");
+
+        button.onclick = function() {
+            selectClockMinute(minute);
+        };
+
+        minuteContainer.appendChild(button);
+    }
+
+    document.getElementById("clockPreview").textContent =
+        formatClockPreview(selectedHour, selectedMinute);
+}
+
+function selectClockHour(hour) {
+    selectedHour = hour;
+    renderClockOptions();
+}
+
+function selectClockMinute(minute) {
+    selectedMinute = minute;
+    renderClockOptions();
+}
+
+function formatClockPreview(hour, minute) {
+    const period = hour >= 12 ? "PM" : "AM";
+    const hour12 = hour % 12 || 12;
+
+    return hour12 + ":" +
+        String(minute).padStart(2, "0") + " " + period;
+}
+
+function confirmTimeSelection() {
+    if (!activeTimeInput) return;
+
+    const timeValue =
+        String(selectedHour).padStart(2, "0") +
+        ":" +
+        String(selectedMinute).padStart(2, "0");
+
+    document.getElementById(activeTimeInput).value = timeValue;
+
+    const displayId = activeTimeInput + "Display";
+
+    document.getElementById(displayId).textContent =
+        formatClockPreview(selectedHour, selectedMinute);
+
+    closeTimePicker();
+}
+
+function closeTimePicker() {
+    document.getElementById("timePickerModal").classList.add("hidden");
+    activeTimeInput = null;
+}
+
+/* ---------------------------------
+TIMETABLE
+--------------------------------- */
+
+let schedule = loadData(STORAGE.schedule, []);
+
+function addSchedule() {
+    const task = document.getElementById("scheduleTask").value.trim();
+    const start = document.getElementById("scheduleStart").value;
+    const end = document.getElementById("scheduleEnd").value;
+
+    if (!task || !start || !end) {
+        alert("Please enter the activity and both times.");
+        return;
+    }
+
+    if (end <= start) {
+        alert("End time should be after start time.");
+        return;
+    }
+
+    schedule.push({
+        id: Date.now(),
+        task: task,
+        start: start,
+        end: end
+    });
+
+    schedule.sort((a, b) => a.start.localeCompare(b.start));
+
+    saveData(STORAGE.schedule, schedule);
+
+    document.getElementById("scheduleTask").value = "";
+    document.getElementById("scheduleStart").value = "";
+    document.getElementById("scheduleEnd").value = "";
+
+    document.getElementById("scheduleStartDisplay").textContent =
+        "Select start time";
+
+    document.getElementById("scheduleEndDisplay").textContent =
+        "Select end time";
+
+    renderSchedule();
+}
+
+function deleteSchedule(id) {
+    schedule = schedule.filter(item => item.id !== id);
+    saveData(STORAGE.schedule, schedule);
+    renderSchedule();
+}
+
+function formatTime(time) {
+    const [hours, minutes] = time.split(":");
+    const date = new Date();
+
+    date.setHours(Number(hours), Number(minutes));
+
+    return date.toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "2-digit"
+    });
+}
+
+function renderSchedule() {
+    const list = document.getElementById("scheduleList");
+
+    if (!schedule.length) {
+        list.innerHTML = '<div class="empty-message">Your timetable is waiting for you 🌸</div>';
+        return;
+    }
+
+    list.innerHTML = schedule.map(item => `
+        <div class="list-item">
+            <div style="flex:1;">
+                <div style="font-weight:700; color:#7053b7;">${escapeHTML(item.task)}</div>
+
+                <div class="small-note" style="margin-top:4px;">
+                    ${formatTime(item.start)} – ${formatTime(item.end)}
+                </div>
+            </div>
+
+            <button class="delete-button" onclick="deleteSchedule(${item.id})">✕</button>
+        </div>
+    `).join("");
+}
+
+/* ---------------------------------
+STUDY TIMER
+--------------------------------- */
+
+let timerSeconds = 25 * 60;
+let timerInitialSeconds = 25 * 60;
+let timerInterval = null;
+let timerRunning = false;
+
+let completedStudyMinutes = loadData(STORAGE.studyTime, 0);
+
+function updateStudyTimeDisplay() {
+    document.getElementById("totalStudyTime").textContent =
+        completedStudyMinutes + " min";
+}
+
+function setTimerDuration() {
+    if (timerRunning) {
+        alert("Pause or reset the timer before changing duration.");
+        return;
+    }
+
+    let minutes = Number(document.getElementById("timerMinutes").value);
+
+    if (!minutes || minutes < 1) minutes = 1;
+    if (minutes > 300) minutes = 300;
+
+    document.getElementById("timerMinutes").value = minutes;
+
+    timerSeconds = minutes * 60;
+    timerInitialSeconds = timerSeconds;
+
+    updateTimerDisplay();
+}
+
+function startTimer() {
+    if (timerRunning) return;
+
+    if (timerSeconds <= 0) {
+        setTimerDuration();
+    }
+
+    timerRunning = true;
+
+    document.getElementById("timerLabel").textContent = "Stay focused ✨";
+    document.getElementById("timerStart").textContent = "Resume";
+
+    timerInterval = setInterval(() => {
+        timerSeconds--;
+
+        updateTimerDisplay();
+
+        if (timerSeconds <= 0) {
+            pauseTimer();
+
+            completedStudyMinutes += Math.round(timerInitialSeconds / 60);
+
+            saveData(STORAGE.studyTime, completedStudyMinutes);
+            updateStudyTimeDisplay();
+
+            document.getElementById("timerLabel").textContent = "Session completed! 🌸";
+
+            alert("Great job! Your focus session is complete. 💜");
+        }
+    }, 1000);
+}
+
+function pauseTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timerRunning = false;
+
+    document.getElementById("timerLabel").textContent = "Paused";
+    document.getElementById("timerStart").textContent = "Resume";
+}
+
+function resetTimer() {
+    pauseTimer();
+
+    timerSeconds = timerInitialSeconds;
+
+    document.getElementById("timerLabel").textContent = "Ready to focus?";
+    document.getElementById("timerStart").textContent = "Start";
+
+    updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(timerSeconds / 60);
+    const seconds = timerSeconds % 60;
+
+    document.getElementById("timerDisplay").textContent =
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+
+    let progress = 0;
+
+    if (timerInitialSeconds > 0) {
+        progress = 1 - (timerSeconds / timerInitialSeconds);
+    }
+
+    const degrees = progress * 360;
+
+    document.getElementById("timerCircle").style.background =
+        `conic-gradient(#a58be8 ${degrees}deg, #eee6ff ${degrees}deg)`;
+}
+
+/* ---------------------------------
+SYLLABUS TRACKER
+--------------------------------- */
+
+let syllabus = loadData(STORAGE.syllabus, []);
+
+function addSubject() {
+    const input = document.getElementById("subjectInput");
+    const name = input.value.trim();
+
+    if (!name) {
+        alert("Please enter a subject name.");
+        return;
+    }
+
+    syllabus.push({
+        id: Date.now(),
+        name: name,
+        topics: []
+    });
+
+    saveData(STORAGE.syllabus, syllabus);
+
+    input.value = "";
+    renderSyllabus();
+}
+
+function addTopic(subjectId) {
+    const input = document.getElementById("topicInput-" + subjectId);
+    const name = input.value.trim();
+
+    if (!name) {
+        alert("Please enter a chapter or topic.");
+        return;
+    }
+
+    syllabus = syllabus.map(subject => {
+        if (subject.id === subjectId) {
+            subject.topics.push({
+                id: Date.now(),
+                name: name,
+                completed: false
+            });
+        }
+
+        return subject;
+    });
+
+    saveData(STORAGE.syllabus, syllabus);
+    renderSyllabus();
+}
+
+function toggleTopic(subjectId, topicId) {
+    syllabus = syllabus.map(subject => {
+        if (subject.id === subjectId) {
+            subject.topics = subject.topics.map(topic => {
+                if (topic.id === topicId) {
+                    topic.completed = !topic.completed;
+                }
+
+                return topic;
+            });
+        }
+
+        return subject;
+    });
+
+    saveData(STORAGE.syllabus, syllabus);
+    renderSyllabus();
+}
+
+function deleteTopic(subjectId, topicId) {
+    syllabus = syllabus.map(subject => {
+        if (subject.id === subjectId) {
+            subject.topics = subject.topics.filter(topic => topic.id !== topicId);
+        }
+
+        return subject;
+    });
+
+    saveData(STORAGE.syllabus, syllabus);
+    renderSyllabus();
+}
+
+function deleteSubject(subjectId) {
+    syllabus = syllabus.filter(subject => subject.id !== subjectId);
+    saveData(STORAGE.syllabus, syllabus);
+    renderSyllabus();
+}
+
+function renderSyllabus() {
+    const list = document.getElementById("syllabusList");
+
+    if (!syllabus.length) {
+        list.innerHTML = '<div class="empty-message">Add your first subject 🌷</div>';
+        return;
+    }
+
+    list.innerHTML = syllabus.map(subject => {
+        const total = subject.topics.length;
+        const completed = subject.topics.filter(topic => topic.completed).length;
+
+        const percent = total ? Math.round((completed / total) * 100) : 0;
+
+        return `
+        <div class="subject-card">
+            <div class="subject-header">
+                <h3>${escapeHTML(subject.name)}</h3>
+                <button class="delete-button" onclick="deleteSubject(${subject.id})">✕</button>
+            </div>
+
+            <div style="font-size:12px; color:#9386a7;">
+                ${completed} of ${total} chapters completed · ${percent}%
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" style="width:${percent}%"></div>
+            </div>
+
+            <div class="input-row" style="margin-top:12px;">
+                <input id="topicInput-${subject.id}" placeholder="Add a chapter or topic">
+                <button class="secondary-button" onclick="addTopic(${subject.id})">Add</button>
+            </div>
+
+            ${subject.topics.map(topic => `
+                <div class="topic-row ${topic.completed ? "done" : ""}">
+                    <input type="checkbox"
+                        ${topic.completed ? "checked" : ""}
+                        onchange="toggleTopic(${subject.id}, ${topic.id})"
+                        style="width:17px; accent-color:#9b7bea;">
+
+                    <span>${escapeHTML(topic.name)}</span>
+
+                    <button onclick="deleteTopic(${subject.id}, ${topic.id})">✕</button>
+                </div>
+            `).join("")}
+        </div>
+        `;
+    }).join("");
+}
+
+/* ---------------------------------
+SCHOLARSHIP FINDER
+--------------------------------- */
+
+const scholarshipPortals = [
+    {
+        name: "National Scholarship Portal (NSP)",
+        description: "Central platform for discovering and applying for eligible government scholarship schemes. Check scheme-specific eligibility and application dates.",
+        category: "National",
+        classes: ["school", "class9", "class10", "class11", "class12", "college"],
+        status: "Check Portal",
+        url: "https://scholarships.gov.in/"
+    },
+    {
+        name: "Jharkhand e-Kalyan",
+        description: "Official Jharkhand scholarship portal. Check available schemes, eligibility requirements, and application dates.",
+        category: "Jharkhand",
+        classes: ["class11", "class12", "college"],
+        status: "Check Portal",
+        url: "https://ekalyan.cgg.gov.in/"
+    },
+    {
+        name: "AICTE Scholarships",
+        description: "Explore scholarship information for eligible students in AICTE-related education programs.",
+        category: "National",
+        classes: ["college"],
+        status: "Check Portal",
+        url: "https://www.aicte-india.org/"
+    },
+    {
+        name: "National Education Portal",
+        description: "Explore official education resources and information about student opportunities.",
+        category: "National",
+        classes: ["school", "class9", "class10", "class11", "class12", "college"],
+        status: "Check Portal",
+        url: "https://www.education.gov.in/"
+    },
+      {
+        name: "UGC Student Scholarship Corner",
+        description: "Explore UGC scholarship schemes including Ishan Uday and National Scholarship for Post Graduate Studies. Check eligibility and scheme details.",
+        category: "National",
+        classes: ["college"],
+        status: "Check Portal",
+        url: "https://www.ugc.gov.in/Home/student_Corner"
+    },
+    {
+        name: "Ministry of Social Justice Scholarships",
+        description: "Explore official scholarship schemes and educational assistance for eligible students. Check scheme-specific eligibility.",
+        category: "National",
+        classes: ["class9", "class10", "class11", "class12", "college"],
+        status: "Check Portal",
+        url: "https://socialjustice.gov.in/index.php/schemes"
+    },
+    {
+        name: "Ministry of Tribal Affairs Scholarships",
+        description: "Explore official scholarship information for eligible Scheduled Tribe students pursuing school and higher education.",
+        category: "National",
+        classes: ["class9", "class10", "class11", "class12", "college"],
+        status: "Check Portal",
+        url: "https://tribal.nic.in/ScholarshiP.aspx"
+    }
+];
+
+function renderScholarships(filtered = scholarshipPortals) {
+    const list = document.getElementById("scholarshipList");
+
+    if (!list) {
+        alert("Scholarship results container is missing!");
+        return;
+    }
+
+    if (!filtered.length) {
+        list.innerHTML = `
+            <div class="panel empty-message">
+                No matching portals found 🌷
+
+                <p class="small-note">
+                    Try changing your filters.
+                </p>
+            </div>
+        `;
+        return;
+    }
+
+    list.innerHTML = filtered.map(item => `
+        <div class="scholarship-card">
+            <h3>${escapeHTML(item.name)}</h3>
+            <p>${escapeHTML(item.description)}</p>
+
+            <p style="font-size:11px;">
+                Region: ${escapeHTML(item.category)}
+            </p>
+
+            <p style="font-size:11px;">
+                Application Status: ${escapeHTML(item.status)}
+            </p>
+
+            <a href="${item.url}" target="_blank"
+               rel="noopener noreferrer">
+                Visit Official Portal ↗
+            </a>
+        </div>
+    `).join("");
+}
+
+function filterScholarships() {
+    const searchText = document.getElementById("scholarshipSearch")
+        .value.trim().toLowerCase();
+
+    const selectedClass =
+        document.getElementById("scholarshipClass").value;
+
+    const selectedState =
+        document.getElementById("scholarshipState").value;
+
+    const selectedStatus =
+        document.getElementById("scholarshipStatus").value;
+
+    const filtered = scholarshipPortals.filter(item => {
+        const searchableText = (
+            item.name + " " +
+            item.description + " " +
+            item.category
+        ).toLowerCase();
+
+        const matchesSearch =
+            !searchText || searchableText.includes(searchText);
+
+        const matchesClass =
+            !selectedClass || item.classes.includes(selectedClass);
+
+        const matchesState =
+            !selectedState ||
+            (selectedState === "National"
+                ? item.category === "National"
+                : item.category === selectedState ||
+                  item.category === "National");
+
+        const matchesStatus =
+            !selectedStatus || item.status === selectedStatus;
+
+        return matchesSearch &&
+               matchesClass &&
+               matchesState &&
+               matchesStatus;
+    });
+
+    renderScholarships(filtered);
+}
+
+function resetScholarshipFilters() {
+    document.getElementById("scholarshipSearch").value = "";
+    document.getElementById("scholarshipClass").value = "";
+    document.getElementById("scholarshipState").value = "";
+    document.getElementById("scholarshipStatus").value = "";
+
+    renderScholarships();
+}
+
+/* ---------------------------------
+PROFILE
+--------------------------------- */
+
+function saveProfile() {
+    const name = document.getElementById("profileNameInput").value.trim();
+    const email = document.getElementById("profileEmailInput").value.trim();
+
+    const profile = { name, email };
+
+    saveData(STORAGE.profile, profile);
+
+    document.getElementById("profileName").textContent = name || "Student";
+    document.getElementById("profileEmail").textContent = email || "Your StudySorter space";
+
+    alert("Profile saved! 💜");
+}
+
+/* ---------------------------------
+OPINION SECTION
+--------------------------------- */
+
+
+async function saveOpinion() {
+    const input = document.getElementById("opinionInput");
+    const message = input.value.trim();
+    const status = document.getElementById("opinionMessage");
+
+    if (!message) {
+        alert("Please write your opinion first.");
+        return;
+    }
+
+    status.textContent = "Submitting your feedback...";
+
+    const { error } = await studySorterSupabase
+        .from("study_feedback")
+        .insert({
+            message: message
+        });
+if (error) {
+    status.textContent = "Error: " + error.message;
+    return;
+}
+
+    input.value = "";
+
+    status.textContent =
+        "Thank you! Your feedback has been submitted privately. 💜";
+}
+
+
+/* ---------------------------------
+CLEAR DATA
+--------------------------------- */
+
+function clearAllData() {
+    const confirmed = confirm(
+        "This will delete your saved tasks, timetable, syllabus, and study time from this device. Continue?"
+    );
+
+    if (!confirmed) return;
+
+    localStorage.removeItem(STORAGE.tasks);
+    localStorage.removeItem(STORAGE.schedule);
+    localStorage.removeItem(STORAGE.syllabus);
+    localStorage.removeItem(STORAGE.studyTime);
+
+    tasks = [];
+    schedule = [];
+    syllabus = [];
+    completedStudyMinutes = 0;
+
+    renderTodos();
+    renderSchedule();
+    renderSyllabus();
+    updateStudyTimeDisplay();
+
+    alert("Your saved study data has been cleared.");
+}
+
+/* ---------------------------------
+SECURITY / TEXT DISPLAY
+--------------------------------- */
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => {
+        const entities = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        };
+
+        return entities[character];
+    });
+}
+
+/* ---------------------------------
+INITIALIZATION
+--------------------------------- */
+
+renderTodos();
+renderSchedule();
+renderSyllabus();
+renderScholarships();
+updateTimerDisplay();
+updateStudyTimeDisplay();
+
+const savedProfile = loadData(STORAGE.profile, { name: "", email: "" });
+
+document.getElementById("profileName").textContent =
+    savedProfile.name || "Student";
+
+document.getElementById("profileEmail").textContent =
+    savedProfile.email || "Your StudySorter space";
+
+</script>
+
+<!-- StudySorter Supabase Connection -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const studySorterSupabase = window.supabase.createClient(
+    "https://emcvuxqlqiybcpyiowfn.supabase.co",
+    "sb_publishable_owkaQAmDbeqf-ze3N7GGAg_DCBNxJRZ"
+);
+</script>
+
+<script>
+  
+// STUDYSORTER STUDY HUB CLOUD SYNC
+
+let studyDataUserId = null;
+let studyDataSyncReady = false;
+
+const STUDY_DATA_OWNER_KEY = "studysorter_study_data_owner";
+
+async function syncStudyDataToCloud() {
+    if (!studyDataSyncReady || !studyDataUserId) return;
+
+    const payload = {
+        user_id: studyDataUserId,
+        tasks: loadData(STORAGE.tasks, []),
+        schedule: loadData(STORAGE.schedule, []),
+        syllabus: loadData(STORAGE.syllabus, []),
+        study_time: loadData(STORAGE.studyTime, 0),
+        updated_at: new Date().toISOString()
+    };
+
+    const { error } = await studySorterSupabase
+        .from("student_study_data")
+        .upsert(payload, { onConflict: "user_id" });
+
+    if (error) {
+        console.error("Study data sync failed:", error.message);
+    }
+}
+
+async function loadStudyDataFromCloud(user) {
+    if (!user) return;
+
+    studyDataSyncReady = false;
+
+    const previousOwner = localStorage.getItem(STUDY_DATA_OWNER_KEY);
+
+    if (previousOwner && previousOwner !== user.id) {
+        localStorage.removeItem(STORAGE.tasks);
+        localStorage.removeItem(STORAGE.schedule);
+        localStorage.removeItem(STORAGE.syllabus);
+        localStorage.removeItem(STORAGE.studyTime);
+    }
+
+    const { data, error } = await studySorterSupabase
+        .from("student_study_data")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (error) {
+        console.error("Could not load cloud study data:", error.message);
+        alert("Study data could not be synced. Please try again.");
+        return;
+    }
+
+    if (data) {
+        saveDataLocally(STORAGE.tasks, data.tasks || []);
+        saveDataLocally(STORAGE.schedule, data.schedule || []);
+        saveDataLocally(STORAGE.syllabus, data.syllabus || []);
+        saveDataLocally(STORAGE.studyTime, data.study_time || 0);
+    } else {
+        studyDataUserId = user.id;
+        studyDataSyncReady = true;
+        await syncStudyDataToCloud();
+    }
+
+    studyDataUserId = user.id;
+    localStorage.setItem(STUDY_DATA_OWNER_KEY, user.id);
+
+    tasks = loadData(STORAGE.tasks, []);
+    schedule = loadData(STORAGE.schedule, []);
+    syllabus = loadData(STORAGE.syllabus, []);
+    completedStudyMinutes = loadData(STORAGE.studyTime, 0);
+
+    renderTodos();
+    renderSchedule();
+    renderSyllabus();
+    updateStudyTimeDisplay();
+
+    studyDataSyncReady = true;
+}
+
+function saveDataLocally(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+// STUDENT ACCOUNT FUNCTIONS
+
+function showStudentLogin() {
+    document.getElementById("studentSignupSection").classList.add("hidden");
+    document.getElementById("studentLoginSection").classList.remove("hidden");
+    document.getElementById("studentAuthMessage").textContent = "";
+}
+
+function showStudentSignup() {
+    document.getElementById("studentLoginSection").classList.add("hidden");
+    document.getElementById("studentSignupSection").classList.remove("hidden");
+    document.getElementById("studentAuthMessage").textContent = "";
+}
+
+
+// STUDENT SIGNUP
+
+async function studentSignup() {
+    const name = document.getElementById("studentSignupName").value.trim();
+    const email = document.getElementById("studentSignupEmail").value.trim();
+    const password = document.getElementById("studentSignupPassword").value;
+    const message = document.getElementById("studentAuthMessage");
+
+    if (!name || !email || !password) {
+        message.textContent = "Please fill in all three fields.";
+        return;
+    }
+
+    if (password.length < 6) {
+        message.textContent = "Password must contain at least 6 characters.";
+        return;
+    }
+
+    message.textContent = "Creating your account...";
+
+    const { data, error } = await studySorterSupabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+            data: {
+                name: name
+            }
+        }
+    });
+
+    if (error) {
+        message.textContent = "Signup failed: " + error.message;
+        return;
+    }
+
+    if (data.session) {
+        message.textContent = "Account created successfully! Welcome to StudySorter 💜";
+        await updateStudentAccountUI(data.user);
+    } else {
+        message.textContent =
+            "Account created! Please check your email and confirm your account before logging in. 💜";
+    }
+}
+
+
+// STUDENT LOGIN
+
+async function studentLogin() {
+    const email = document.getElementById("studentLoginEmail").value.trim();
+    const password = document.getElementById("studentLoginPassword").value;
+    const message = document.getElementById("studentAuthMessage");
+
+    if (!email || !password) {
+        message.textContent = "Please enter your email and password.";
+        return;
+    }
+
+    message.textContent = "Logging in...";
+
+    const { data, error } = await studySorterSupabase.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        message.textContent = "Login failed: " + error.message;
+        return;
+    }
+
+    if (data.user.id === STUDYSORTER_ADMIN_UID) {
+        await studySorterSupabase.auth.signOut();
+        message.textContent = "Please use the separate Admin Panel login.";
+        return;
+    }
+
+    message.textContent = "Login successful! Welcome back 💜";
+    await updateStudentAccountUI(data.user);
+}
+
+
+// GOOGLE LOGIN
+
+async function studentGoogleLogin() {
+    const message = document.getElementById("studentAuthMessage");
+
+    if (window.location.protocol === "file:") {
+        message.textContent =
+            "Google login will be available after StudySorter is hosted. 💜";
+        return;
+    }
+
+    message.textContent = "Connecting to Google...";
+
+    const { error } = await studySorterSupabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+            redirectTo: window.location.href
+        }
+    });
+
+    if (error) {
+        message.textContent = "Google login failed: " + error.message;
+    }
+}
+
+
+// UPDATE STUDENT PROFILE DISPLAY
+async function updateStudentAccountUI(user) {
+    if (!user) return;
+
+    await loadStudyDataFromCloud(user);
+
+    const { data, error } = await studySorterSupabase
+        .from("student_profiles")
+        .select("display_name")
+        .eq("id", user.id)
+        .single();
+
+    if (error) {
+        document.getElementById("studentAuthMessage").textContent =
+            "Logged in, but profile could not be loaded: " + error.message;
+        return;
+    }
+
+    document.getElementById("profileName").textContent =
+        data.display_name;
+
+    document.getElementById("profileEmail").textContent =
+        user.email || "Your StudySorter space";
+
+    document.getElementById("studentAuthMessage").textContent =
+        "Logged in as " + data.display_name + " 💜";
+
+    const oldButton = document.getElementById("studentLogoutButton");
+
+    if (oldButton) oldButton.remove();
+
+    const logoutButton = document.createElement("button");
+    logoutButton.id = "studentLogoutButton";
+    logoutButton.className = "menu-item";
+    logoutButton.style.width = "100%";
+    logoutButton.textContent = "🚪 Student Logout";
+    logoutButton.onclick = studentLogout;
+
+    document.getElementById("studentAuthMessage")
+        .appendChild(logoutButton);
+}
+
+// STUDENT LOGOUT
+
+async function studentLogout() {
+    studyDataSyncReady = false;
+
+    const { error } = await studySorterSupabase.auth.signOut();
+
+    if (error) {
+        alert("Logout failed: " + error.message);
+        return;
+    }
+
+    studyDataUserId = null;
+
+    localStorage.removeItem(STORAGE.tasks);
+    localStorage.removeItem(STORAGE.schedule);
+    localStorage.removeItem(STORAGE.syllabus);
+    localStorage.removeItem(STORAGE.studyTime);
+
+    tasks = [];
+    schedule = [];
+    syllabus = [];
+    completedStudyMinutes = 0;
+
+    renderTodos();
+    renderSchedule();
+    renderSyllabus();
+    updateStudyTimeDisplay();
+
+    document.getElementById("profileName").textContent = "Student";
+    document.getElementById("profileEmail").textContent =
+        "Your StudySorter space";
+
+    document.getElementById("studentAuthMessage").textContent =
+        "You have logged out. 💜";
+
+    showStudentLogin();
+}
+
+// RESTORE STUDENT LOGIN SESSION
+
+studySorterSupabase.auth.getSession().then(({ data, error }) => {
+    if (error) {
+        console.error("Session restore failed:", error.message);
+        return;
+    }
+
+    const user = data.session?.user;
+
+    if (user && user.id !== STUDYSORTER_ADMIN_UID) {
+        updateStudentAccountUI(user);
+    }
+});
+</script>
+
+<script>
+const STUDYSORTER_ADMIN_UID =
+    "07f1c7f4-93fe-4407-a45b-cd17bbc802d7";
+
+async function adminLogin() {
+    const email = document.getElementById("adminEmail").value.trim();
+    const password = document.getElementById("adminPassword").value;
+    const message = document.getElementById("adminMessage");
+
+    message.textContent = "Logging in...";
+
+    const { data, error } =
+        await studySorterSupabase.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+    if (error) {
+        message.textContent = "Login failed: " + error.message;
+        return;
+    }
+
+    if (data.user.id !== STUDYSORTER_ADMIN_UID) {
+        await studySorterSupabase.auth.signOut();
+
+        message.textContent =
+            "Access denied. This account is not the StudySorter admin.";
+        return;
+    }
+
+    document.getElementById("adminLoginSection").classList.add("hidden");
+
+    document.getElementById("adminUploadSection").classList.remove("hidden");
+await loadAdminVoicePosts();
+await loadAdminNotifications();
+    message.textContent = "Admin login successful! Welcome 💜";
+}
+
+async function adminLogout() {
+    await studySorterSupabase.auth.signOut();
+
+    document.getElementById("adminLoginSection").classList.remove("hidden");
+
+    document.getElementById("adminUploadSection").classList.add("hidden");
+
+    document.getElementById("adminPassword").value = "";
+
+    document.getElementById("adminMessage").textContent =
+        "You have logged out.";
+}
+  
+// LOAD POSTS IN ADMIN PANEL
+async function loadAdminVoicePosts() {
+    const list = document.getElementById("adminVoicePostsList");
+
+    const { data: { user } } =
+        await studySorterSupabase.auth.getUser();
+
+    if (!user || user.id !== STUDYSORTER_ADMIN_UID) {
+        list.textContent = "Admin access required.";
+        return;
+    }
+
+    list.textContent = "Loading posts...";
+
+    const { data, error } = await studySorterSupabase
+        .from("voice_posts")
+        .select(`
+            id,
+            user_id,
+            message,
+            created_at,
+            student_profiles!voice_posts_user_id_fkey(display_name),
+            voice_likes(user_id),
+            voice_replies(id, message, created_at)
+        `)
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        list.textContent = "Could not load posts: " + error.message;
+        return;
+    }
+
+    list.replaceChildren();
+
+    if (!data || data.length === 0) {
+        list.textContent = "No student posts yet. 💜";
+        return;
+    }
+
+    data.forEach(post => {
+        const card = document.createElement("div");
+        card.className = "panel";
+        card.style.marginTop = "12px";
+
+        const name = document.createElement("h3");
+        name.textContent =
+            post.student_profiles?.display_name || "Student";
+
+        const message = document.createElement("p");
+        message.textContent = post.message;
+
+        const likes = document.createElement("p");
+        likes.className = "small-note";
+        likes.textContent =
+            "💜 " + (post.voice_likes?.length || 0) + " likes";
+
+        const date = document.createElement("p");
+        date.className = "small-note";
+        date.textContent =
+            new Date(post.created_at).toLocaleString();
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "secondary-button";
+        deleteButton.style.marginTop = "10px";
+        deleteButton.textContent = "🗑️ Delete Post";
+        deleteButton.onclick = () =>
+            adminDeleteVoicePost(post.id);
+
+        const replyInput = document.createElement("textarea");
+        replyInput.rows = 2;
+        replyInput.maxLength = 2000;
+        replyInput.placeholder = "Write an admin reply...";
+        replyInput.style.marginTop = "12px";
+
+        const replyButton = document.createElement("button");
+        replyButton.className = "primary-button";
+        replyButton.style.width = "100%";
+        replyButton.style.marginTop = "8px";
+        replyButton.textContent = "Reply as Admin 💜";
+        replyButton.onclick = () =>
+            adminReplyVoicePost(post.id, replyInput.value);
+
+        card.append(name, message, likes, date);
+
+        (post.voice_replies || []).forEach(reply => {
+            const replyBox = document.createElement("div");
+            replyBox.style.marginTop = "10px";
+
+            const title = document.createElement("strong");
+            title.textContent = "StudySorter Admin 💜";
+
+            const replyText = document.createElement("p");
+            replyText.textContent = reply.message;
+
+            replyBox.append(title, replyText);
+            card.append(replyBox);
+        });
+
+        card.append(deleteButton, replyInput, replyButton);
+        list.append(card);
+    });
+}
+
+// NOTIFICATIONS ADMIN FUNCTIONS
+
+async function loadAdminNotifications() {
+    const list = document.getElementById("adminNotificationsList");
+
+    const { data: { user } } =
+        await studySorterSupabase.auth.getUser();
+
+    if (!user || user.id !== STUDYSORTER_ADMIN_UID) {
+        list.textContent = "Admin access required.";
+        return;
+    }
+
+    list.textContent = "Loading notifications...";
+
+    const { data, error } = await studySorterSupabase
+        .from("notifications")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        list.textContent = "Could not load notifications: " + error.message;
+        return;
+    }
+
+    list.replaceChildren();
+
+    if (!data || data.length === 0) {
+        list.textContent = "No notifications published yet. 💜";
+        return;
+    }
+
+    data.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "panel";
+        card.style.marginTop = "12px";
+
+        const title = document.createElement("h3");
+        title.textContent = item.title;
+
+        const message = document.createElement("p");
+        message.textContent = item.message;
+
+        const date = document.createElement("p");
+        date.className = "small-note";
+        date.textContent = new Date(item.created_at).toLocaleString();
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "✏️ Edit";
+        editButton.onclick = () => editNotification(item);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "🗑️ Delete";
+        deleteButton.className = "secondary-button";
+        deleteButton.style.marginLeft = "8px";
+        deleteButton.onclick = () => deleteNotification(item.id);
+
+        card.append(title, message, date, editButton, deleteButton);
+        list.append(card);
+    });
+}
+
+
+async function saveNotification() {
+    const titleInput = document.getElementById("notificationTitle");
+    const messageInput = document.getElementById("notificationMessage");
+
+    const title = titleInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (!title || !message) {
+        alert("Please enter both title and message.");
+        return;
+    }
+
+    const { data: { user } } =
+        await studySorterSupabase.auth.getUser();
+
+    if (!user || user.id !== STUDYSORTER_ADMIN_UID) {
+        alert("Admin access required.");
+        return;
+    }
+
+    const { error } = await studySorterSupabase
+        .from("notifications")
+        .insert([{ title, message }]);
+
+    if (error) {
+        alert("Could not publish notification: " + error.message);
+        return;
+    }
+
+    titleInput.value = "";
+    messageInput.value = "";
+
+    alert("Notification published successfully! 💜");
+
+    await loadAdminNotifications();
+    await loadNotifications();
+}
+
+
+async function editNotification(item) {
+    const title = prompt("Edit notification title:", item.title);
+
+    if (title === null) return;
+
+    const message = prompt("Edit notification message:", item.message);
+
+    if (message === null) return;
+
+    if (!title.trim() || !message.trim()) {
+        alert("Title and message cannot be empty.");
+        return;
+    }
+
+    const { data: { user } } =
+        await studySorterSupabase.auth.getUser();
+
+    if (!user || user.id !== STUDYSORTER_ADMIN_UID) {
+        alert("Admin access required.");
+        return;
+    }
+
+    const { error } = await studySorterSupabase
+        .from("notifications")
+        .update({
+            title: title.trim(),
+            message: message.trim(),
+            updated_at: new Date().toISOString()
+        })
+        .eq("id", item.id);
+
+    if (error) {
+        alert("Could not update notification: " + error.message);
+        return;
+    }
+
+    alert("Notification updated! 💜");
+
+    await loadAdminNotifications();
+    await loadNotifications();
+}
+
+
+async function deleteNotification(id) {
+    if (!confirm("Are you sure you want to delete this notification?")) {
+        return;
+    }
+
+    const { data: { user } } =
+        await studySorterSupabase.auth.getUser();
+
+    if (!user || user.id !== STUDYSORTER_ADMIN_UID) {
+        alert("Admin access required.");
+        return;
+    }
+
+    const { error } = await studySorterSupabase
+        .from("notifications")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        alert("Could not delete notification: " + error.message);
+        return;
+    }
+
+    alert("Notification deleted.");
+
+    await loadAdminNotifications();
+    await loadNotifications();
+}
+
+
+// DELETE A STUDENT POST
+
+function showVoiceDeleteModal() {
+    return new Promise(resolve => {
+        const modal = document.getElementById("voiceDeleteModal");
+        const yesButton = document.getElementById("voiceDeleteConfirm");
+        const noButton = document.getElementById("voiceDeleteCancel");
+
+        modal.style.display = "flex";
+
+        yesButton.onclick = () => {
+            modal.style.display = "none";
+            resolve(true);
+        };
+
+        noButton.onclick = () => {
+            modal.style.display = "none";
+            resolve(false);
+        };
+    });
+}
+
+async function adminDeleteVoicePost(postId) {
+    const confirmed = await showVoiceDeleteModal();
+
+    if (!confirmed) return;
+
+    const { data: { user } } =
+        await studySorterSupabase.auth.getUser();
+
+    if (!user || user.id !== STUDYSORTER_ADMIN_UID) {
+        alert("Admin access required.");
+        return;
+    }
+
+    const { error } = await studySorterSupabase
+        .from("voice_posts")
+        .delete()
+        .eq("id", postId);
+
+    if (error) {
+        alert("Could not delete post: " + error.message);
+        return;
+    }
+
+    alert("Post deleted successfully. 💜");
+    await loadAdminVoicePosts();
+    await loadVoicePosts();
+}
+
+
+
+// REPLY AS STUDYSORTER ADMIN
+async function adminReplyVoicePost(postId, message) {
+    message = message.trim();
+
+    if (!message) {
+        alert("Please write a reply first.");
+        return;
+    }
+
+    const { data: { user } } =
+        await studySorterSupabase.auth.getUser();
+
+    if (!user || user.id !== STUDYSORTER_ADMIN_UID) {
+        alert("Admin access required.");
+        return;
+    }
+
+    const { error } = await studySorterSupabase
+        .from("voice_replies")
+        .insert({
+            post_id: postId,
+            admin_user_id: user.id,
+            message: message
+        });
+
+    if (error) {
+        alert("Could not send reply: " + error.message);
+        return;
+    }
+
+    alert("Your reply has been published! 💜");
+    await loadAdminVoicePosts();
+    await loadVoicePosts();
+}
+
+</script>
+
+<script>
+  
+function updateMaterialOptions() {
+
+    const className =
+        document.getElementById("materialClass").value;
+
+    const typeSelect =
+        document.getElementById("materialType");
+
+    const subjectSelect =
+        document.getElementById("materialSubject");
+
+    const subjects = {
+        "Class 6": ["Mathematics", "Science", "Social Science", "English"],
+        "Class 7": ["Mathematics", "Science", "Social Science", "English"],
+        "Class 8": ["Mathematics", "Science", "Social Science", "English"],
+        "Class 9": ["Mathematics", "Science", "Social Science", "English"],
+        "Class 10": ["Mathematics", "Science", "Social Science", "English"],
+        "Class 11": [
+            "Physics", "Chemistry", "Mathematics", "Biology",
+            "Accountancy", "Business Studies", "Economics",
+            "History", "Geography", "Political Science",
+            "Sociology", "Psychology", "English"
+        ],
+        "Class 12": [
+            "Physics", "Chemistry", "Mathematics", "Biology",
+            "Accountancy", "Business Studies", "Economics",
+            "History", "Geography", "Political Science",
+            "Sociology", "Psychology", "English"
+        ]
+    };
+
+    const types = {
+        "Class 6": ["Notes"],
+        "Class 7": ["Notes"],
+        "Class 8": ["Notes"],
+        "Class 9": ["Cheat Sheets"],
+        "Class 10": ["PYQ", "Cheat Sheets"],
+        "Class 11": ["Cheat Sheets"],
+        "Class 12": ["PYQ", "Cheat Sheets"]
+    };
+
+    typeSelect.innerHTML =
+        '<option value="">Select Material Type</option>';
+
+    subjectSelect.innerHTML =
+        '<option value="">Select Subject</option>';
+
+    (types[className] || []).forEach(function(type) {
+        typeSelect.add(new Option(type, type));
+    });
+
+    (subjects[className] || []).forEach(function(subject) {
+        subjectSelect.add(new Option(subject, subject));
+    });
+}
+ 
+async function uploadStudyMaterial() {
+
+    const message = document.getElementById("adminMessage");
+
+    const title = document.getElementById("materialTitle").value.trim();
+    const className = document.getElementById("materialClass").value;
+    const materialType = document.getElementById("materialType").value;
+    const subject = document.getElementById("materialSubject").value;
+    const chapter = document.getElementById("materialChapter").value.trim();
+    const file = document.getElementById("materialPDF").files[0];
+
+    if (!title || !className || !materialType || !subject || !file) {
+        message.textContent = "Please fill all required fields and select a PDF.";
+        return;
+    }
+
+    if (file.type !== "application/pdf") {
+        message.textContent = "Please select a PDF file only.";
+        return;
+    }
+
+    message.textContent = "Uploading PDF... Please wait.";
+
+    const filePath =
+        className.replace(/\s+/g, "") + "/" +
+        crypto.randomUUID() + ".pdf";
+
+    const { error: uploadError } =
+        await studySorterSupabase.storage
+            .from("study-materials")
+            .upload(filePath, file, {
+                contentType: "application/pdf",
+                upsert: false
+            });
+
+    if (uploadError) {
+        message.textContent =
+            "PDF upload failed: " + uploadError.message;
+        return;
+    }
+
+    const { error: databaseError } =
+        await studySorterSupabase
+            .from("study_materials")
+            .insert({
+                title: title,
+                class_name: className,
+                subject: subject,
+                chapter: chapter || null,
+                material_type: materialType,
+                file_path: filePath
+            });
+
+    if (databaseError) {
+        message.textContent =
+            "PDF uploaded, but details could not be saved: " +
+            databaseError.message;
+        return;
+    }
+
+    message.textContent = "PDF uploaded successfully! 💜";
+
+    document.getElementById("materialTitle").value = "";
+    document.getElementById("materialClass").value = "";
+
+    document.getElementById("materialType").innerHTML =
+        '<option value="">Select Material Type</option>';
+
+    document.getElementById("materialSubject").innerHTML =
+        '<option value="">Select Subject</option>';
+
+    document.getElementById("materialChapter").value = "";
+    document.getElementById("materialPDF").value = "";
+}
+
+  
+function escapeFeedbackHTML(text) {
+    return text.replace(/[&<>"']/g, function(char) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[char];
+    });
+}
+
+async function loadAdminFeedback() {
+    const list = document.getElementById("adminFeedbackList");
+
+    list.textContent = "Loading student feedback...";
+
+    const { data, error } = await studySorterSupabase
+        .from("study_feedback")
+        .select("id, message, created_at")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        list.textContent = "Error: " + error.message;
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        list.textContent = "No student feedback received yet. 💜";
+        return;
+    }
+
+    list.innerHTML = data.map(function(item) {
+        const message = escapeFeedbackHTML(item.message);
+        const date = new Date(item.created_at).toLocaleString();
+
+        return `
+            <div class="panel" style="margin-top:12px;">
+                <p>${message}</p>
+                <p class="small-note">
+                    Submitted: ${escapeFeedbackHTML(date)}
+                </p>
+            </div>
+        `;
+    }).join("");
+}
+
+let previousStudyPage = "notesPage";
+
+async function openStudySubject(className, materialType, subject, currentPage) {
+
+    previousStudyPage = currentPage;
+
+    document.getElementById("studyViewerHeading").textContent =
+        className + " — " + subject;
+
+    document.getElementById("studyViewerSubheading").textContent =
+        materialType;
+
+    const list = document.getElementById("studyMaterialList");
+
+    showPage("studyMaterialViewerPage");
+
+    list.textContent = "Loading study materials...";
+
+    const { data, error } = await studySorterSupabase
+        .from("study_materials")
+        .select("title, chapter, file_path")
+        .eq("class_name", className)
+        .eq("material_type", materialType)
+        .eq("subject", subject)
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        list.textContent = "Could not load PDFs: " + error.message;
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        list.textContent = "No study materials uploaded yet. 💜";
+        return;
+    }
+
+    list.innerHTML = data.map(function(item) {
+
+        const safeTitle = escapeFeedbackHTML(item.title || "Study Material");
+        const safeChapter = escapeFeedbackHTML(item.chapter || "");
+        
+        const file = studySorterSupabase.storage
+            .from("study-materials")
+            .getPublicUrl(item.file_path);
+
+        const pdfUrl = escapeFeedbackHTML(file.data.publicUrl);
+
+        return `
+            <div class="career-card" style="margin-bottom:12px;">
+                <h3>📄 ${safeTitle}</h3>
+                <p>${safeChapter}</p>
+                <a href="${pdfUrl}" target="_blank" rel="noopener">
+                    Open PDF →
+                </a>
+            </div>
+        `;
+
+    }).join("");
+}
+
+</script>
+
+<script>
+// YOUR VOICE: OPEN PAGE
+
+function openYourVoice() {
+    showPage("yourVoicePage");
+    loadVoicePosts();
+}
+
+
+// PUBLISH A POST
+
+async function publishVoicePost() {
+    const input = document.getElementById("voicePostInput");
+    const status = document.getElementById("voicePostMessage");
+    const message = input.value.trim();
+
+    if (!message) {
+        status.textContent = "Please write something first.";
+        return;
+    }
+
+    const { data: { user } } =
+        await studySorterSupabase.auth.getUser();
+
+    if (!user) {
+        status.textContent =
+            "Please log in to share your voice. 💜";
+        return;
+    }
+
+    status.textContent = "Publishing...";
+
+    const { error } = await studySorterSupabase
+        .from("voice_posts")
+        .insert({
+            user_id: user.id,
+            message: message
+        });
+
+    if (error) {
+        status.textContent = "Could not publish: " + error.message;
+        return;
+    }
+
+    input.value = "";
+    status.textContent = "Your post has been published! 💜";
+
+    await loadVoicePosts();
+}
+
+
+// LOAD COMMUNITY POSTS
+
+async function loadVoicePosts() {
+    const list = document.getElementById("voicePostsList");
+
+    list.textContent = "Loading posts...";
+
+    const { data, error } = await studySorterSupabase
+        .from("voice_posts")
+        .select(`
+            id,
+            user_id,
+            message,
+            created_at,
+            student_profiles!voice_posts_user_id_fkey(display_name),
+            voice_likes(user_id),
+            voice_replies(id, message, created_at)
+        `)
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        list.textContent = "Could not load posts: " + error.message;
+        return;
+    }
+
+    list.replaceChildren();
+
+    if (!data || data.length === 0) {
+        list.textContent =
+            "No posts yet. Be the first to share your voice! 💜";
+        return;
+    }
+
+    data.forEach(post => {
+        const card = document.createElement("div");
+        card.className = "panel";
+        card.style.marginTop = "12px";
+
+        const name = document.createElement("h3");
+        name.textContent =
+            post.student_profiles?.display_name || "Student";
+
+        const message = document.createElement("p");
+        message.textContent = post.message;
+
+        const likes = document.createElement("p");
+        likes.className = "small-note";
+        likes.textContent =
+            "💜 " + (post.voice_likes?.length || 0) + " likes";
+
+        const likeButton = document.createElement("button");
+        likeButton.className = "secondary-button";
+        likeButton.textContent = "💜 Like";
+        likeButton.onclick = () => likeVoicePost(post.id);
+
+        card.append(name, message, likes, likeButton);
+
+        (post.voice_replies || []).forEach(reply => {
+            const replyBox = document.createElement("div");
+            replyBox.style.marginTop = "12px";
+            replyBox.style.padding = "10px";
+            replyBox.style.background = "#f5edff";
+            replyBox.style.borderRadius = "12px";
+
+            const replyTitle = document.createElement("strong");
+            replyTitle.textContent = "StudySorter Admin 💜";
+
+            const replyText = document.createElement("p");
+            replyText.textContent = reply.message;
+
+            replyBox.append(replyTitle, replyText);
+            card.append(replyBox);
+        });
+
+        list.append(card);
+    });
+}
+
+
+// LIKE A POST
+
+async function likeVoicePost(postId) {
+    const { data: { user } } =
+        await studySorterSupabase.auth.getUser();
+
+    if (!user) {
+        alert("Please log in to like posts. 💜");
+        return;
+    }
+
+    const { error } = await studySorterSupabase
+        .from("voice_likes")
+        .insert({
+            post_id: postId,
+            user_id: user.id
+        });
+
+    if (error) {
+        if (error.code === "23505") {
+            alert("You've already liked this post. 💜");
+        } else {
+            alert("Could not like post: " + error.message);
+        }
+        return;
+    }
+
+    await loadVoicePosts();
+}
+</script>
+  <script>
+(function () {
+    function updateYourVoiceBubble() {
+        const bubble = document.getElementById("yourVoiceBubble");
+        const homePage = document.getElementById("homePage");
+
+        if (!bubble || !homePage) return;
+
+        bubble.style.display =
+            homePage.classList.contains("active") ? "block" : "none";
+    }
+
+async function checkNotificationBell() {
+    const dot = document.getElementById("notificationBellDot");
+
+    if (!dot) return;
+
+    const { data, error } = await studySorterSupabase
+        .from("notifications")
+        .select("created_at")
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+    if (error) {
+        console.error("Notification bell error:", error);
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        dot.style.display = "none";
+        return;
+    }
+
+    const lastVisit = localStorage.getItem(
+        "studySorterLastNotificationVisit"
+    );
+
+    const hasUnread = !lastVisit ||
+        new Date(data[0].created_at) > new Date(lastVisit);
+
+    dot.style.display = hasUnread ? "block" : "none";
+}
+
+    document.addEventListener("DOMContentLoaded", function () {
+        updateYourVoiceBubble();
+checkNotificationBell();
+        const homePage = document.getElementById("homePage");
+
+        if (homePage) {
+            const observer = new MutationObserver(updateYourVoiceBubble);
+            observer.observe(homePage, {
+                attributes: true,
+                attributeFilter: ["class"]
+            });
+        }
+    });
+})();
+</script>
+  
+<div id="voiceDeleteModal" style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(50,35,65,0.45);
+    z-index:10000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+">
+    <div style="
+        background:#fff7fd;
+        border:2px solid #ead9ff;
+        border-radius:22px;
+        padding:25px;
+        width:100%;
+        max-width:330px;
+        text-align:center;
+        box-shadow:0 8px 30px rgba(70,40,90,0.2);
+    ">
+        <h3 style="color:#70449a;">Delete this post? 💜</h3>
+        <p style="color:#705b7c;">
+            Are you sure you want to delete this student post?
+        </p>
+
+        <div style="
+            display:flex;
+            gap:12px;
+            margin-top:22px;
+        ">
+            <button id="voiceDeleteCancel" style="
+                flex:1;
+                padding:12px;
+                border:1px solid #cbb3e8;
+                border-radius:12px;
+                background:#eee3ff;
+                color:#54336f;
+                font-weight:600;
+            ">No, Keep Post</button>
+
+            <button id="voiceDeleteConfirm" style="
+                flex:1;
+                padding:12px;
+                border:none;
+                border-radius:12px;
+                background:#d98bb9;
+                color:#ffffff;
+                font-weight:600;
+            ">Yes, Delete</button>
+        </div>
+    </div>
+</div>
+<script>
+(function () {
+    const loadingScreen = document.getElementById("studySorterLoadingScreen");
+    if (!loadingScreen) return;
+
+    const minimumDisplayTime = new Promise(resolve => {
+        setTimeout(resolve, 2000);
+    });
+
+    const pageReady = document.readyState === "complete"
+        ? Promise.resolve()
+        : new Promise(resolve => {
+            window.addEventListener("load", resolve, { once: true });
+        });
+
+    Promise.all([minimumDisplayTime, pageReady]).then(() => {
+        loadingScreen.classList.add("is-hidden");
+
+        setTimeout(() => {
+            loadingScreen.remove();
+        }, 400);
+    });
+})();
+</script>
+</body>
+</html>
